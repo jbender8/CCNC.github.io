@@ -1,12 +1,21 @@
 import React from "react";
+import clsx from 'clsx';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
+import { makeStyles, useTheme } from '@material-ui/core/styles'; import CssBaseline from '@material-ui/core/CssBaseline';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
+import IconButton from '@material-ui/core/IconButton';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import Divider from '@material-ui/core/Divider';
+import MenuIcon from '@material-ui/icons/Menu';
+import logo from './corona.png';
+import './App.css';
+import InputBase from '@material-ui/core/InputBase';
+
 import {
     BrowserRouter as Router,
     Switch,
@@ -15,7 +24,6 @@ import {
     Redirect
 } from "react-router-dom";
 import StatsPage from "./StatsPage";
-import { green } from "@material-ui/core/colors";
 const drawerWidth = 200;
 
 const useStyles = makeStyles((theme) => ({
@@ -23,18 +31,45 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
     },
     appBar: {
-        zIndex: theme.zIndex.drawer + 1,
-        backgroundColor: '#282c34',
+        transition: theme.transitions.create(['margin', 'width'], {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen,
+        }),
+        background: 'transparent',
+        boxShadow: 'none',
+    },
+    appBarShift: {
+        width: `calc(100% - ${drawerWidth}px)`,
+        marginLeft: drawerWidth,
+        transition: theme.transitions.create(['margin', 'width'], {
+            easing: theme.transitions.easing.easeOut,
+            duration: theme.transitions.duration.enteringScreen,
+        }),
+    },
+    menuButton: {
+        marginRight: theme.spacing(2),
+    },
+    hide: {
+        display: 'none',
     },
     drawer: {
-        width: drawerWidth,
-        backgroundColor: '#282c34',
 
+        width: drawerWidth,
+        flexShrink: 0,
     },
     drawerPaper: {
-        width: drawerWidth,
-        backgroundColor: '#d3d3d3',
 
+        width: drawerWidth,
+        background: '#D3D3D3',
+    },
+    drawerHeader: {
+
+        display: 'flex',
+        alignItems: 'center',
+        padding: theme.spacing(0, 1),
+        // necessary for content to be below app bar
+        ...theme.mixins.toolbar,
+        justifyContent: 'flex-end',
     },
     linkStyle: {
         fontSize: 20,
@@ -42,36 +77,94 @@ const useStyles = makeStyles((theme) => ({
     labelStyle: {
         fontSize: 15,
     },
+    footer: {
+        marginLeft: 20,
+        fontSize: 17,
+    },
+    appBar2: {
+        top: 'auto',
+        bottom: 0,
+        marginLeft: drawerWidth,
+        background: 'transparent',
+        boxShadow: 'none',
+    },
     content: {
         flexGrow: 1,
-        padding: theme.spacing(3),
+        transition: theme.transitions.create('margin', {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen,
+        }),
+        position: "absolute",
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
+        overflow: "hidden",
+        zIndex: -1,
+    },
+    contentShift: {
+        transition: theme.transitions.create('margin', {
+            easing: theme.transitions.easing.easeOut,
+            duration: theme.transitions.duration.enteringScreen,
+        }),
+        marginLeft: 0,
     },
 }));
 
 export default function App() {
     const classes = useStyles();
+    const theme = useTheme();
+    const [open, setOpen] = React.useState(false);
+
+    const handleDrawerOpen = () => {
+        setOpen(true);
+    };
+
+    const handleDrawerClose = () => {
+        setOpen(false);
+    };
+
     return (
         <div className={classes.root}>
             <CssBaseline />
-            <AppBar position="fixed" className={classes.appBar}>
+            <AppBar
+                position="fixed"
+                className={clsx(classes.appBar, {
+                    [classes.appBarShift]: open,
+                })}
+            >
                 <Toolbar>
+                    <IconButton
+                        color="inherit"
+                        aria-label="open drawer"
+                        onClick={handleDrawerOpen}
+                        edge="start"
+                        className={clsx(classes.menuButton, open && classes.hide)}
+                    >
+                        <MenuIcon />
+                    </IconButton>
                     <Typography variant="h6" noWrap>
                         WebApps Final
-          </Typography>
+                    </Typography>
                 </Toolbar>
             </AppBar>
             <Router>
 
                 <Drawer
                     className={classes.drawer}
-                    variant="permanent"
+                    variant="persistent"
+                    anchor="left"
+                    open={open}
                     classes={{
                         paper: classes.drawerPaper,
                     }}
-                    anchor="left"
                 >
-                    <Toolbar />
-
+                    <div className={classes.drawerHeader}>
+                        <IconButton onClick={handleDrawerClose}>
+                            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+                        </IconButton>
+                    </div>
+                    <Divider />
                     <div>
                         <List component="nav">
                             <ListItem>
@@ -86,6 +179,7 @@ export default function App() {
                         </List>
                     </div>
                 </Drawer>
+                <div className={classes.drawerHeader} />
                 <Switch>
                     <Route path="/news">
                         <News />
@@ -107,8 +201,14 @@ function Home() {
     const classes = useStyles();
     return (
         <main className={classes.content}>
-            <Toolbar />
-            <p>Home Page</p>
+            <div className="App">
+                <header className="App-header">
+                    <img src={logo} className="App-logo" alt="logo" />
+                    <p>COVID-19 Information</p>
+                    <SubmitForm />
+                </header>
+            </div>
+            <Footer />
         </main>);
 }
 
@@ -137,7 +237,7 @@ class SubmitForm extends React.Component {
         super(props);
         this.state = {
             value: '',
-            url: '',
+            url: '/',
             redirect: false
         };
         this.handleChange = this.handleChange.bind(this);
@@ -145,17 +245,19 @@ class SubmitForm extends React.Component {
     }
 
     handleChange(event) {
-        const url = "/welcome?msg=";
+        const url = "/stats";
         const test = encodeURI(event.target.value);
         const finalURL = url + test;
         this.setState({
             value: event.target.value,
-            url: finalURL
+            url: url
         });
     }
 
     handleSubmit(event) {
-        this.setState({ redirect: true });
+        if (this.state.value !== '') {
+            this.setState({ redirect: true });
+        }
     }
 
     render() {
@@ -165,13 +267,33 @@ class SubmitForm extends React.Component {
         }
         return (
             <form>
-                <h1>Hello!</h1>
-                <label style={{ fontSize: 20 }}>
-                    Please enter a welcome message:
-          <input type="text" value={this.state.value} onChange={this.handleChange} />
-                </label>
-                <button onClick={this.handleSubmit}>Login</button>
+                <div className="formInput">
+                    <InputBase
+                        placeholder="Enter Zipcode"
+                        inputProps={{ 'aria-label': 'Enter Zipcode' }}
+                        value={this.state.value}
+                        onChange={this.handleChange}
+                        style={{ padding: "10px" }}
+                    />
+                    <button className="updateButton" onClick={this.handleSubmit} >
+                        Search
+                     </button>
+
+                </div>
             </form>
         );
     }
+}
+
+
+// Styles and imports were ommited
+function Footer() {
+    const classes = useStyles();
+    return (
+        <AppBar position='fixed' className={classes.appBar2}>
+            <Typography variant='h6' className={classes.footer}>
+                © Copyright 2020
+        </Typography>
+        </AppBar>
+    );
 }
