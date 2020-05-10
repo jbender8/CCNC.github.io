@@ -1,19 +1,11 @@
 import React from "react";
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles, useTheme } from '@material-ui/core/styles'; import CssBaseline from '@material-ui/core/CssBaseline';
-
-import Drawer from '@material-ui/core/Drawer';
-import AppBar from '@material-ui/core/AppBar';
 import {
-    BrowserRouter as Router,
-    Switch,
     Route,
-    Link,
     useLocation,
     Redirect,
     NavLink
 } from "react-router-dom";
+import {Bar} from "react-chartjs-2";
 
 
 class StatsWindow extends React.Component {
@@ -38,11 +30,33 @@ class StatsWindow extends React.Component {
 
 
     render() {
+        var dataObject = {
+          labels:  [ "yellow","orange","green","blue","purple","pink"],
+          datasets: [
+                {
+                label: 'Total',
+                data: [
+                    1324755, 347485, 565738, 457839, 583958, 684938
+                ],
+                backgroundColor: 'rgba(75, 192, 192, 0.6)',
+
+                }
+            ]
+        };
+
+        var optionsObj = {
+            height: "300",
+            responsive: true,
+            maintainAspectRatio: true
+        };
+
         return (
             <main className={this.state.classes.content}>
                 <div className="App">
                     <header className="App-header">
                         <p>Stats {this.state.zip}</p>
+                        <button onClick={this.getZipData} >Populate Graph</button>
+                        <Bar options={optionsObj} data={dataObject} />
                     </header>
                 </div>
             </main>
