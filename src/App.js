@@ -219,7 +219,26 @@ function Stats() {
 }
 
 function News() {
+
     //Key word search ? Maybe add a query if needed
+    //this api i found is the shit, we can add keywords and it will show different articles 
+    //API key : 38aa0595ba1e473aabb6193e9e8940ad
+    //https://newsapi.org/docs/get-started
+    //don't mind this mess, working on it :)
+    /*
+    var url = 'http://newsapi.org/v2/everything?' +
+          'q=COVID-19&' +
+          'from=2020-05-10&' +
+          'sortBy=popularity&' +
+          'apiKey=38aa0595ba1e473aabb6193e9e8940ad';
+
+    var req = new Request(url);
+
+    fetch(req)
+        .then(function(response) {
+          console.log(response.json());
+        })
+*/
     const classes = useStyles();
     return (
         <main className={classes.content}>
