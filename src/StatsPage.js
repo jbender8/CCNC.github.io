@@ -5,7 +5,8 @@ import {
     Redirect,
     NavLink
 } from "react-router-dom";
-import {Bar} from "react-chartjs-2";
+import { Bar } from "react-chartjs-2";
+import moment from "moment";
 
 
 class StatsWindow extends React.Component {
@@ -18,32 +19,48 @@ class StatsWindow extends React.Component {
         };
     }
 
-    getZipData(){
+    getZipData() {
         var zipUrl = "https://data.cityofchicago.org/resource/yhhz-zm2v.json";
 
-        fetch(zipUrl).then((resonse) =>{
-            return resonse.json();
-        }).then((data) => {
-            console.log(data)
-        });
+        fetch(zipUrl)
+            .then((resonse) => {
+                return resonse.json();
+            }).then((data) => {
+                console.log(data);
+                this.constructZipData(data);
+            });
     }
 
+    constructZipData(dataArray) {
+        var targetData = dataArray.filter(element => {
+            return element.zip_code == this.state.zip;
+        });
 
-    render() {
-        var dataObject = {
-          labels:  [ "yellow","orange","green","blue","purple","pink"],
-          datasets: [
+        var labels = targetData.map(element => moment.utc(element.week_start).format("MMMM Do") );
+        var deathsData = targetData.map(element => element.tests_weekly);
+
+        var zipDataObject = {
+            labels: labels,
+            datasets: [
                 {
-                label: 'Total',
-                data: [
-                    1324755, 347485, 565738, 457839, 583958, 684938
-                ],
-                backgroundColor: 'rgba(75, 192, 192, 0.6)',
-
+                    label: 'Tests Per Week',
+                    data: deathsData,
+                    backgroundColor: 'rgba(75, 192, 192, 0.6)',
                 }
             ]
         };
 
+        this.setState({
+            zipDataObject: zipDataObject
+        });
+    }
+
+    componentDidMount(){
+        this.getZipData();
+    }
+
+
+    render() {
         var optionsObj = {
             height: "300",
             responsive: true,
@@ -54,9 +71,8 @@ class StatsWindow extends React.Component {
             <main className={this.state.classes.content}>
                 <div className="App">
                     <header className="App-header">
-                        <p>Stats {this.state.zip}</p>
-                        <button onClick={this.getZipData} >Populate Graph</button>
-                        <Bar options={optionsObj} data={dataObject} />
+                        <p>Stats for zip code: {this.state.zip}</p>
+                        <Bar options={optionsObj} data={this.state.zipDataObject} />
                     </header>
                 </div>
             </main>

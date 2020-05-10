@@ -282,7 +282,7 @@ class SubmitForm extends React.Component {
             <form>
                 <div className="formInput">
                     <InputBase
-                        placeholder="Enter Zipcode"
+                        placeholder="Enter Chicago Zipcode"
                         inputProps={{ 'aria-label': 'Enter Zipcode' }}
                         value={this.state.value}
                         onChange={this.handleChange}
