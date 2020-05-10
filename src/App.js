@@ -24,6 +24,7 @@ import {
     Redirect
 } from "react-router-dom";
 import StatsPage from "./StatsPage";
+import Template from "./Template"
 const drawerWidth = 200;
 
 const useStyles = makeStyles((theme) => ({
@@ -215,7 +216,7 @@ function Home() {
 function Stats() {
     //need a query for zipcode
     const classes = useStyles();
-    return (<StatsPage classN={classes.content} />);
+    return (<StatsPage classes={classes} />);
 }
 
 function News() {
@@ -223,9 +224,20 @@ function News() {
     const classes = useStyles();
     return (
         <main className={classes.content}>
-            <Toolbar />
-            <p>News Page</p>
-        </main>);
+            <div className="App">
+                <header className="App-header">
+                    <p>News page</p>
+            
+                </header>
+            </div>
+            <Footer />
+        </main>
+    );
+    // return (
+    //     <main className={classes.content}>
+    //         <Toolbar />
+    //         <p>News Page</p>
+    //     </main>);
 }
 
 /* form work for Home Page */
@@ -262,14 +274,15 @@ class SubmitForm extends React.Component {
 
     render() {
         const { redirect, url } = this.state;
+        var targetUrl = this.state.url + "?zip=" + this.state.value;
         if (redirect) {
-            return <Redirect push to={url} />
+            return <Redirect push to={targetUrl} />
         }
         return (
             <form>
                 <div className="formInput">
                     <InputBase
-                        placeholder="Enter Zipcode"
+                        placeholder="Enter Chicago Zipcode"
                         inputProps={{ 'aria-label': 'Enter Zipcode' }}
                         value={this.state.value}
                         onChange={this.handleChange}
