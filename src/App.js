@@ -227,7 +227,7 @@ function News() {
             <div className="App">
                 <header className="App-header">
                     <p>News page</p>
-            
+
                 </header>
             </div>
             <Footer />
@@ -248,26 +248,40 @@ class SubmitForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            value: '',
-            url: '/',
+            zip: '',
+            age: '',
+            url: '/stats?zip=',
             redirect: false
         };
-        this.handleChange = this.handleChange.bind(this);
+        this.handleZipChange = this.handleZipChange.bind(this);
+        this.handleAgeChange = this.handleAgeChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleChange(event) {
-        const url = "/stats";
-        const test = encodeURI(event.target.value);
-        const finalURL = url + test;
+    handleZipChange(event) {
+        const url = "/stats?zip=";
+        const zip = encodeURI(event.target.value);
+        const age = "age=" + this.state.age;
+        const finalURL = url + zip + age;
         this.setState({
-            value: event.target.value,
-            url: url
+            zip: event.target.value,
+            url: finalURL
+        });
+    }
+
+    handleAgeChange(event) {
+        const url = "/stats?zip=";
+        const age = "age=" + encodeURI(event.target.value);
+        const zip = this.state.zip;
+        const finalURL = url + zip + age;
+        this.setState({
+            age: event.target.value,
+            url: finalURL
         });
     }
 
     handleSubmit(event) {
-        if (this.state.value !== '') {
+        if (this.state.zip !== '' && this.state.age !== '') {
             this.setState({ redirect: true });
         }
     }
@@ -284,15 +298,25 @@ class SubmitForm extends React.Component {
                     <InputBase
                         placeholder="Enter Chicago Zipcode"
                         inputProps={{ 'aria-label': 'Enter Zipcode' }}
-                        value={this.state.value}
-                        onChange={this.handleChange}
+                        value={this.state.zip}
+                        onChange={this.handleZipChange}
                         style={{ padding: "10px" }}
                     />
-                    <button className="updateButton" onClick={this.handleSubmit} >
-                        Search
-                     </button>
-
                 </div>
+                <div className="formInput">
+                    <InputBase
+                        placeholder="Enter your age"
+                        inputProps={{ 'aria-label': 'Enter Age' }}
+                        value={this.state.age}
+                        onChange={this.handleAgeChange}
+                        style={{ padding: "10px" }}
+                    />
+                </div>
+
+                <button className="updateButton" onClick={this.handleSubmit} >
+                    Search
+                 </button>
+
             </form>
         );
     }
