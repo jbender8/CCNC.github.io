@@ -15,6 +15,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import logo from './corona.png';
 import './App.css';
 import InputBase from '@material-ui/core/InputBase';
+import Button from '@material-ui/core/Button';
 
 import {
     BrowserRouter as Router,
@@ -61,7 +62,7 @@ const useStyles = makeStyles((theme) => ({
     drawerPaper: {
 
         width: drawerWidth,
-        background: '#D3D3D3',
+        background: "linear-gradient(135deg, rgb(29, 39, 94) 30%, rgb(110, 7, 114) 90%)"
     },
     drawerHeader: {
 
@@ -162,20 +163,20 @@ export default function App() {
                 >
                     <div className={classes.drawerHeader}>
                         <IconButton onClick={handleDrawerClose}>
-                            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+                            {theme.direction === 'ltr' ? <ChevronLeftIcon color="primary" /> : <ChevronRightIcon color="primary" />}
                         </IconButton>
                     </div>
                     <Divider />
                     <div>
                         <List component="nav">
-                            <ListItem>
-                                <Link to="/" className={classes.linkStyle}>Home</Link>
+                            <ListItem button component="a" href="/">
+                                <h1 className="textDrawer">Home</h1>
                             </ListItem>
-                            <ListItem>
-                                <Link to="/stats" className={classes.linkStyle}>Stats</Link>
+                            <ListItem button component="a" href="/stats">
+                                <h1 className="textDrawer">Stats</h1>
                             </ListItem>
-                            <ListItem>
-                                <Link to="/news" className={classes.linkStyle}>News</Link>
+                            <ListItem button component="a" href="/news">
+                                <h1 className="textDrawer">News</h1>
                             </ListItem>
                         </List>
                     </div>
@@ -233,11 +234,7 @@ function News() {
             <Footer />
         </main>
     );
-    // return (
-    //     <main className={classes.content}>
-    //         <Toolbar />
-    //         <p>News Page</p>
-    //     </main>);
+
 }
 
 /* form work for Home Page */
@@ -312,10 +309,9 @@ class SubmitForm extends React.Component {
                         style={{ padding: "10px" }}
                     />
                 </div>
-
-                <button className="updateButton" onClick={this.handleSubmit} >
-                    Search
-                 </button>
+                <Button className="updateButton" style={{ color: "white" }} onClick={this.handleSubmit}>
+                    SEARCH
+                </Button>
 
             </form>
         );
