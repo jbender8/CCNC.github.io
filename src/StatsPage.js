@@ -68,7 +68,8 @@ class StatsWindow extends React.Component {
 
         var sanitizedLabels = targetLabels.map((sliceString) =>{
             var prefixRemoved = sliceString.replace("cases_age_", "");
-            return prefixRemoved.replace("_", "-");
+            var dashRemoved = (prefixRemoved.includes("80")) ? prefixRemoved.replace("_", "+") : prefixRemoved.replace("_", "-");
+            return dashRemoved
         })
 
         var pieDataObject = {
