@@ -5,8 +5,10 @@ import {
     Redirect,
     NavLink
 } from "react-router-dom";
-import { Bar } from "react-chartjs-2";
+import { Bar, Pie } from "react-chartjs-2";
 import moment from "moment";
+import Button from '@material-ui/core/Button';
+
 
 
 class StatsWindow extends React.Component {
@@ -15,7 +17,8 @@ class StatsWindow extends React.Component {
 
         this.state = {
             classes: props.classes,
-            zip: this.props.zip
+            zip: this.props.zip,
+            age: this.props.age
         };
     }
 
@@ -36,7 +39,7 @@ class StatsWindow extends React.Component {
             return element.zip_code == this.state.zip;
         });
 
-        var labels = targetData.map(element => moment.utc(element.week_start).format("MMMM Do") );
+        var labels = targetData.map(element => moment.utc(element.week_start).format("MMMM Do"));
         var deathsData = targetData.map(element => element.tests_weekly);
 
         var zipDataObject = {
@@ -55,14 +58,13 @@ class StatsWindow extends React.Component {
         });
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.getZipData();
     }
 
 
     render() {
         var optionsObj = {
-            height: "300",
             responsive: true,
             maintainAspectRatio: true
         };
@@ -72,10 +74,27 @@ class StatsWindow extends React.Component {
                 <div className="App">
                     <header className="App-header">
                         <p>Stats for zip code: {this.state.zip}</p>
-                        <Bar options={optionsObj} data={this.state.zipDataObject} />
+                        <Bar height={100} options={optionsObj} data={this.state.zipDataObject} />
+                        <p>Stats for Age: {this.state.zip}</p>
+                        <Pie
+                            height={50}
+                            options={optionsObj}
+                            data={{
+                                labels: ['2-3', 384, 585],
+                                datasets: [{
+                                    data: [500, 400, 300],
+                                    backgroundColor: ['rgba(153, 102, 255, 0.6)', 'rgba(255, 99, 132, 0.6)', 'rgba(255, 206, 86, 0.6)']
+                                }]
+                            }}
+                        />
+                        <br></br>
+                        <Button className="updateButton" style={{ color: "white" }} onClick={this.handleSubmit}>
+                            GET LATEST NEWS
+                        </Button>
                     </header>
-                </div>
-            </main>
+
+                </div >
+            </main >
         );
     }
 }
