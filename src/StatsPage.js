@@ -33,40 +33,40 @@ class StatsWindow extends React.Component {
             });
     }
 
-    getAgeData(){
+    getAgeData() {
         var ageUrl = "https://data.cityofchicago.org/resource/naz8-j4nc.json";
 
         fetch(ageUrl)
-            .then((response) =>{
+            .then((response) => {
                 return response.json();
             })
-            .then((data)=>{
+            .then((data) => {
                 this.constrcutAgeData(data);
             })
     }
 
-    constrcutAgeData(dataArray){
+    constrcutAgeData(dataArray) {
         var rawTargetData = dataArray[0];
 
-        var targetLabels = ["cases_age_0_17", "cases_age_18_29", "cases_age_30_39", "cases_age_40_49", 
-                            "cases_age_50_59", "cases_age_60_69", "cases_age_70_79", "cases_age_80_"];
+        var targetLabels = ["cases_age_0_17", "cases_age_18_29", "cases_age_30_39", "cases_age_40_49",
+            "cases_age_50_59", "cases_age_60_69", "cases_age_70_79", "cases_age_80_"];
 
-        var targetData = targetLabels.map((sliceString) =>{
+        var targetData = targetLabels.map((sliceString) => {
             return rawTargetData[sliceString];
         });
 
-        var backgroundColors = targetLabels.map((sliceString) =>{
+        var backgroundColors = targetLabels.map((sliceString) => {
             var ageBounds = sliceString.replace("cases_age_", "").split('_');
-            if(ageBounds[1] == "") ageBounds[1] = "110";
-            if((parseInt(ageBounds[0]) <= this.state.age) && ( this.state.age <= parseInt(ageBounds[1]))){
+            if (ageBounds[1] == "") ageBounds[1] = "110";
+            if ((parseInt(ageBounds[0]) <= this.state.age) && (this.state.age <= parseInt(ageBounds[1]))) {
                 return 'rgba(75, 192, 192, 0.6)'
             }
-            else{
+            else {
                 return '#CCC';
             }
         });
 
-        var sanitizedLabels = targetLabels.map((sliceString) =>{
+        var sanitizedLabels = targetLabels.map((sliceString) => {
             var prefixRemoved = sliceString.replace("cases_age_", "");
             return prefixRemoved.replace("_", "-");
         })
@@ -77,6 +77,7 @@ class StatsWindow extends React.Component {
                 {
                     data: targetData,
                     backgroundColor: backgroundColors,
+                    hoverBackgroundColor: ['#1b1b5c', '#63206c', '#9f276f', '#d33d66', '#f86356', '#ff9342', '#ffc734', '#fffc45']
                 }
             ]
         };

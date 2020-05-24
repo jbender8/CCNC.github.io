@@ -217,7 +217,13 @@ function Home() {
 function Stats() {
     //need a query for zipcode
     const classes = useStyles();
-    return (<StatsPage classes={classes} />);
+    return (
+        <div>
+            <StatsPage classes={classes} />
+            <Footer />
+        </div>
+
+    );
 }
 
 function News() {
@@ -289,7 +295,7 @@ class SubmitForm extends React.Component {
         const { redirect, url } = this.state;
         // var targetUrl = this.state.url + "?zip=" + this.state.value;
         if (redirect) {
-            return <Redirect push to={this.state.url } />
+            return <Redirect push to={this.state.url} />
         }
         return (
             <form>
