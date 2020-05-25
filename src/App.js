@@ -218,7 +218,13 @@ function Home() {
 function Stats() {
     //need a query for zipcode
     const classes = useStyles();
-    return (<StatsPage classes={classes} />);
+    return (
+        <div>
+            <StatsPage classes={classes} />
+            <Footer />
+        </div>
+
+    );
 }
 
 function News() {
@@ -249,23 +255,25 @@ class SubmitForm extends React.Component {
     handleZipChange(event) {
         const url = "/stats?zip=";
         const zip = encodeURI(event.target.value);
-        const age = "age=" + this.state.age;
+        const age = "&age=" + this.state.age;
         const finalURL = url + zip + age;
         this.setState({
             zip: event.target.value,
             url: finalURL
         });
+        console.log(this.state);
     }
 
     handleAgeChange(event) {
         const url = "/stats?zip=";
-        const age = "age=" + encodeURI(event.target.value);
+        const age = "&age=" + encodeURI(event.target.value);
         const zip = this.state.zip;
         const finalURL = url + zip + age;
         this.setState({
             age: event.target.value,
             url: finalURL
         });
+        console.log(this.state);
     }
 
     handleSubmit(event) {
@@ -276,9 +284,9 @@ class SubmitForm extends React.Component {
 
     render() {
         const { redirect, url } = this.state;
-        var targetUrl = this.state.url + "?zip=" + this.state.value;
+        // var targetUrl = this.state.url + "?zip=" + this.state.value;
         if (redirect) {
-            return <Redirect push to={targetUrl} />
+            return <Redirect push to={this.state.url} />
         }
         return (
             <form>
