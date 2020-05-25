@@ -6,6 +6,7 @@ import RefreshIcon from "@material-ui/icons/Refresh";
 import Typography from '@material-ui/core/Typography';
 import { ToggleButton, ToggleButtonGroup } from '@material-ui/lab';
 import moment from 'moment';
+import Toolbar from '@material-ui/core/Toolbar';
 
 const useStyles = makeStyles({
     root: {
@@ -29,7 +30,7 @@ const useStyles = makeStyles({
 function WeatherHolder(props) {
     const cardHolder = useStyles();
     return (
-        <Link to={props.url}>
+        <a href={props.newsObj.url} style={{ textDecoration: 'none' }}>
             <Card className={cardHolder.root}>
                 <CardHeader
                     title={props.newsObj.title}
@@ -42,7 +43,7 @@ function WeatherHolder(props) {
                     </Typography>
                 </CardContent>
             </Card>
-        </Link>
+        </a>
     );
 }
 
@@ -94,42 +95,46 @@ class NewsWindow extends React.Component {
             return (
                 <main className={this.state.classes.content}>
                     <div className="App">
-                        <header className="App-header"></header>
-                        <Grid container spacing={1}>
-                            <Grid container item xs={12} spacing={3}>
-                                <Grid item xs={4}>
-                                    <WeatherHolder newsObj={this.state.listArticles[0]} />
+                        <header className="App-header">
+                            <Toolbar />
+                            <p>Articles on COVID-19</p>
+
+                            <Grid container spacing={1}>
+                                <Grid container item xs={12} spacing={3}>
+                                    <Grid item xs={4}>
+                                        <WeatherHolder newsObj={this.state.listArticles[0]} />
+                                    </Grid>
+                                    <Grid item xs={4}>
+                                        <WeatherHolder newsObj={this.state.listArticles[1]} />
+                                    </Grid>
+                                    <Grid item xs={4}>
+                                        <WeatherHolder newsObj={this.state.listArticles[2]} />
+                                    </Grid>
                                 </Grid>
-                                <Grid item xs={4}>
-                                    <WeatherHolder newsObj={this.state.listArticles[1]} />
+                                <Grid container item xs={12} spacing={3}>
+                                    <Grid item xs={4}>
+                                        <WeatherHolder newsObj={this.state.listArticles[3]} />
+                                    </Grid>
+                                    <Grid item xs={4}>
+                                        <WeatherHolder newsObj={this.state.listArticles[4]} />
+                                    </Grid>
+                                    <Grid item xs={4}>
+                                        <WeatherHolder newsObj={this.state.listArticles[5]} />
+                                    </Grid>
                                 </Grid>
-                                <Grid item xs={4}>
-                                    <WeatherHolder newsObj={this.state.listArticles[2]} />
+                                <Grid container item xs={12} spacing={3}>
+                                    <Grid item xs={4}>
+                                        <WeatherHolder newsObj={this.state.listArticles[6]} />
+                                    </Grid>
+                                    <Grid item xs={4}>
+                                        <WeatherHolder newsObj={this.state.listArticles[7]} />
+                                    </Grid>
+                                    <Grid item xs={4}>
+                                        <WeatherHolder newsObj={this.state.listArticles[8]} />
+                                    </Grid>
                                 </Grid>
                             </Grid>
-                            <Grid container item xs={12} spacing={3}>
-                                <Grid item xs={4}>
-                                    <WeatherHolder newsObj={this.state.listArticles[3]} />
-                                </Grid>
-                                <Grid item xs={4}>
-                                    <WeatherHolder newsObj={this.state.listArticles[4]} />
-                                </Grid>
-                                <Grid item xs={4}>
-                                    <WeatherHolder newsObj={this.state.listArticles[5]} />
-                                </Grid>
-                            </Grid>
-                            <Grid container item xs={12} spacing={3}>
-                                <Grid item xs={4}>
-                                    <WeatherHolder newsObj={this.state.listArticles[6]} />
-                                </Grid>
-                                <Grid item xs={4}>
-                                    <WeatherHolder newsObj={this.state.listArticles[7]} />
-                                </Grid>
-                                <Grid item xs={4}>
-                                    <WeatherHolder newsObj={this.state.listArticles[8]} />
-                                </Grid>
-                            </Grid>
-                        </Grid>
+                        </header>
                     </div>
                 </main>)
         }

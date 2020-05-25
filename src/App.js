@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
         }),
-        background: 'transparent',
+        background: "#282c34",
         boxShadow: 'none',
     },
     appBarShift: {
@@ -101,7 +101,6 @@ const useStyles = makeStyles((theme) => ({
         left: 0,
         right: 0,
         top: 0,
-        bottom: 0,
         overflow: "hidden",
         zIndex: -1,
     },
@@ -230,7 +229,13 @@ function Stats() {
 function News() {
     //Key word search ? Maybe add a query if needed
     const classes = useStyles();
-    return (<NewsPage classes={classes} />);
+    return (
+        <div>
+            <NewsPage classes={classes} />
+            <Footer />
+        </div>
+
+    );
 
 }
 

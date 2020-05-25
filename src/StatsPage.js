@@ -8,6 +8,7 @@ import {
 import { Bar, Pie, Doughnut } from "react-chartjs-2";
 import moment from "moment";
 import Button from '@material-ui/core/Button';
+import Toolbar from '@material-ui/core/Toolbar';
 
 
 
@@ -18,8 +19,11 @@ class StatsWindow extends React.Component {
         this.state = {
             classes: props.classes,
             zip: this.props.zip,
-            age: this.props.age
+            age: this.props.age,
+            redirect: false,
         };
+        this.handleSubmit = this.handleSubmit.bind(this);
+
     }
 
     getZipData() {
@@ -109,8 +113,9 @@ class StatsWindow extends React.Component {
         };
 
         this.setState({
-            zipDataObject: zipDataObject
+            zipDataObject: zipDataObject,
         });
+
     }
 
     componentDidMount() {
@@ -118,19 +123,25 @@ class StatsWindow extends React.Component {
         this.getAgeData();
     }
 
+    handleSubmit(event) {
+        this.setState({ redirect: true });
+    }
 
     render() {
         var optionsObj = {
             responsive: true,
             maintainAspectRatio: true
         };
-
+        if (this.state.redirect) {
+            return (<Redirect push to='/news' />);
+        }
         return (
             <main className={this.state.classes.content}>
                 <div className="App">
                     <header className="App-header">
+                        <Toolbar />
                         <p>Test by zip code: {this.state.zip}</p>
-                        <Bar height={40} options={optionsObj} data={this.state.zipDataObject} />
+                        <Bar height={110} options={optionsObj} data={this.state.zipDataObject} />
                         <p>Cases by Age: {this.state.age}</p>
                         <Doughnut
                             height={50}
@@ -141,8 +152,8 @@ class StatsWindow extends React.Component {
                         <Button className="updateButton" style={{ color: "white" }} onClick={this.handleSubmit}>
                             GET LATEST NEWS
                         </Button>
+                        <Toolbar />
                     </header>
-
                 </div >
             </main >
         );
