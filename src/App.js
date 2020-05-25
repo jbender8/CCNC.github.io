@@ -25,6 +25,7 @@ import {
     Redirect
 } from "react-router-dom";
 import StatsPage from "./StatsPage";
+import NewsPage from "./NewsPage";
 import Template from "./Template"
 const drawerWidth = 200;
 
@@ -223,17 +224,7 @@ function Stats() {
 function News() {
     //Key word search ? Maybe add a query if needed
     const classes = useStyles();
-    return (
-        <main className={classes.content}>
-            <div className="App">
-                <header className="App-header">
-                    <p>News page</p>
-
-                </header>
-            </div>
-            <Footer />
-        </main>
-    );
+    return (<NewsPage classes={classes} />);
 
 }
 
