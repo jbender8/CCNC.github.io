@@ -25,6 +25,7 @@ import {
     Redirect
 } from "react-router-dom";
 import StatsPage from "./StatsPage";
+import NewsPage from "./NewsPage";
 import Template from "./Template"
 const drawerWidth = 200;
 
@@ -37,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
         }),
-        background: 'transparent',
+        background: "#282c34",
         boxShadow: 'none',
     },
     appBarShift: {
@@ -100,7 +101,6 @@ const useStyles = makeStyles((theme) => ({
         left: 0,
         right: 0,
         top: 0,
-        bottom: 0,
         overflow: "hidden",
         zIndex: -1,
     },
@@ -230,15 +230,11 @@ function News() {
     //Key word search ? Maybe add a query if needed
     const classes = useStyles();
     return (
-        <main className={classes.content}>
-            <div className="App">
-                <header className="App-header">
-                    <p>News page</p>
-
-                </header>
-            </div>
+        <div>
+            <NewsPage classes={classes} />
             <Footer />
-        </main>
+        </div>
+
     );
 
 }
