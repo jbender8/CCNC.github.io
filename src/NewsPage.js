@@ -7,12 +7,15 @@ import Typography from '@material-ui/core/Typography';
 import { ToggleButton, ToggleButtonGroup } from '@material-ui/lab';
 import moment from 'moment';
 import Toolbar from '@material-ui/core/Toolbar';
+import { findByLabelText } from "@testing-library/react";
 
 const useStyles = makeStyles({
     root: {
         maxWidth: 400,
         minWidth: 300,
         fontFamily: 'monospace',
+        maxHeight: 800,
+        minHeight: 300
     },
     media: {
         height: 0,
@@ -36,7 +39,7 @@ function WeatherHolder(props) {
                     title={props.newsObj.title}
                     subheader={props.newsObj.published}
                 />
-                <img src={props.newsObj.image} />
+                <img src={props.newsObj.image} maxHeight={500} width={400} mode='fit' /> 
                 <CardContent>
                     <Typography variant="body2" color="textSecondary" component="p">
                         {props.newsObj.description}
