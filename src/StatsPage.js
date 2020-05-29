@@ -12,7 +12,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import {getZipData, getAgeData} from './ApiModule';
 import { wait } from "@testing-library/react";
 
-class StatsWindow extends React.Component {
+export default class StatsWindow extends React.Component {
     constructor(props) {
         super(props);
 
@@ -23,9 +23,8 @@ class StatsWindow extends React.Component {
             redirect: false,
         };
         this.handleSubmit = this.handleSubmit.bind(this);
-
     }
-    
+
     constrcutAgeData(dataArray) {
         var rawTargetData = dataArray[0];
 
@@ -192,12 +191,4 @@ class StatsWindow extends React.Component {
     }
 }
 
-export default function StatsPage(props) {
-    let query = useQuery();
-   
-    return (<StatsWindow classes={props.classes} zip={query.get("zip")} age={query.get("age")} />);
-}
 
-function useQuery() {
-    return new URLSearchParams(useLocation().search);
-}

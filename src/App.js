@@ -22,9 +22,10 @@ import {
     Switch,
     Route,
     Link,
-    Redirect
+    Redirect,
+    useLocation,
 } from "react-router-dom";
-import StatsPage from "./StatsPage";
+import StatsWindow from "./StatsPage";
 import NewsPage from "./NewsPage";
 import Template from "./Template"
 const drawerWidth = 200;
@@ -218,15 +219,19 @@ function Home() {
 }
 
 function Stats() {
-    //need a query for zipcode
     const classes = useStyles();
+    let query = useQuery();
     return (
         <div>
-            <StatsPage classes={classes} />
+            <StatsWindow classes={classes} zip={query.get("zip")} age={query.get("age")} />
             <Footer />
         </div>
 
     );
+}
+
+function useQuery() {
+    return new URLSearchParams(useLocation().search);
 }
 
 function News() {
@@ -295,6 +300,7 @@ class SubmitForm extends React.Component {
             return <Redirect push to={this.state.url} />
         }
         return (
+            <div>
             <form>
                 <div className="formInput">
                     <InputBase
@@ -317,12 +323,13 @@ class SubmitForm extends React.Component {
                 <Button className="updateButton" style={{ color: "white" }} onClick={this.handleSubmit}>
                     SEARCH
                 </Button>
-
             </form>
+            <p hidden={this.state.errormsg}>You must enter a valid zip code and age!</p>
+            </div>
+            
         );
     }
 }
-
 
 // Styles and imports were ommited
 function Footer() {
