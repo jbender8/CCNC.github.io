@@ -83,6 +83,9 @@ const useStyles = makeStyles((theme) => ({
     footer: {
         marginLeft: 20,
         fontSize: 17,
+        color: 'white',
+        background: "#282c34"
+
     },
     appBar2: {
         top: 'auto',
@@ -205,8 +208,8 @@ function Home() {
         <main className={classes.content}>
             <div className="App">
                 <header className="App-header">
-                    <img src={logo} className="App-logo" alt="logo" />
-                    <p>COVID-19 Information</p>
+                    <img src={logo} className="App-logo" alt="Covid-19 logo" />
+                    <h1 style={{ fontSize: "35px" }}>COVID-19 Information</h1>
                     <SubmitForm />
                 </header>
             </div>
@@ -298,7 +301,7 @@ class SubmitForm extends React.Component {
                 <div className="formInput">
                     <InputBase
                         placeholder="Enter Chicago Zipcode"
-                        inputProps={{ 'aria-label': 'Enter Zipcode' }}
+                        inputProps={{ 'aria-label': 'Enter Chicago Zipcode' }}
                         value={this.state.zip}
                         onChange={this.handleZipChange}
                         style={{ padding: "10px" }}
@@ -307,7 +310,7 @@ class SubmitForm extends React.Component {
                 <div className="formInput">
                     <InputBase
                         placeholder="Enter your age"
-                        inputProps={{ 'aria-label': 'Enter Age' }}
+                        inputProps={{ 'aria-label': 'Enter your Age' }}
                         value={this.state.age}
                         onChange={this.handleAgeChange}
                         style={{ padding: "10px" }}
@@ -328,7 +331,7 @@ function Footer() {
     const classes = useStyles();
     return (
         <AppBar position='fixed' className={classes.appBar2}>
-            <Typography variant='h6' className={classes.footer}>
+            <Typography variant='h2' className={classes.footer} >
                 © Copyright 2020
         </Typography>
         </AppBar>
