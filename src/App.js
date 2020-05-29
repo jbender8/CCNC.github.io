@@ -242,10 +242,6 @@ function Stats() {
         setResponse(data);
     };
 
-    // return (<div>
-    //     <StatsWindow classes={classes} zip={query.get("zip")} age={query.get("age")} />
-    //     <Footer />
-    // </div>);
     return (resposne == "" || resposne.map(t => t.zip_code).includes(zip) ? ( 
         <div>
             <StatsWindow classes={classes} zip={query.get("zip")} age={query.get("age")} />
