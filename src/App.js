@@ -165,8 +165,8 @@ export default function App() {
                     }}
                 >
                     <div className={classes.drawerHeader}>
-                        <IconButton onClick={handleDrawerClose}>
-                            {theme.direction === 'ltr' ? <ChevronLeftIcon color="primary" /> : <ChevronRightIcon color="primary" />}
+                        <IconButton onClick={handleDrawerClose} aria-label="close drawer">
+                            {theme.direction === 'ltr' ? <ChevronLeftIcon aria-label="open drawer" color="primary" /> : <ChevronRightIcon aria-label="open drawer" color="primary" />}
                         </IconButton>
                     </div>
                     <Divider />
@@ -174,9 +174,6 @@ export default function App() {
                         <List component="nav">
                             <ListItem button component="a" href="/">
                                 <h1 className="textDrawer">Home</h1>
-                            </ListItem>
-                            <ListItem button component="a" href="/stats">
-                                <h1 className="textDrawer">Stats</h1>
                             </ListItem>
                             <ListItem button component="a" href="/news">
                                 <h1 className="textDrawer">News</h1>

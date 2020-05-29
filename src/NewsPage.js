@@ -39,7 +39,7 @@ function WeatherHolder(props) {
                     title={props.newsObj.title}
                     subheader={props.newsObj.published}
                 />
-                <img src={props.newsObj.image} maxHeight={500} width={400} mode='fit' />
+                <img src={props.newsObj.image} alt={props.newsObj.source} maxHeight={500} width={400} mode='fit' />
                 <CardContent>
                     <Typography variant="body2" color="textSecondary" component="p">
                         {props.newsObj.description}
@@ -58,14 +58,13 @@ class NewsWindow extends React.Component {
             classes: props.classes,
             url: 'https://newsapi.org/v2/everything?q=COVID-19&from=2020-05-10&sortBy=popularity&apiKey=38aa0595ba1e473aabb6193e9e8940ad',
             listArticles: {},
-            objectthing: {},
         };
         this.retrieveNewsData({});
     }
 
     retrieveNewsData({ target }) {
         //5decfe986025127212ad9ae685327f91
-        fetch("https://gnews.io/api/v3/search?q=covid&image=required&token=d657cba9d51565f8988c86dbdc36507c")
+        fetch("https://gnews.io/api/v3/search?q=covid&image=required&token=5decfe986025127212ad9ae685327f91")
             .then(resp => resp.json())
             .then(res => {
                 var newList = [];
