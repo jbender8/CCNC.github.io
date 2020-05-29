@@ -9,10 +9,10 @@ import { Bar, Pie, Doughnut } from "react-chartjs-2";
 import moment from "moment";
 import Button from '@material-ui/core/Button';
 import Toolbar from '@material-ui/core/Toolbar';
+import {getZipData, getAgeData} from './ApiModule';
+import { wait } from "@testing-library/react";
 
-
-
-class StatsWindow extends React.Component {
+export default class StatsWindow extends React.Component {
     constructor(props) {
         super(props);
 
@@ -23,30 +23,6 @@ class StatsWindow extends React.Component {
             redirect: false,
         };
         this.handleSubmit = this.handleSubmit.bind(this);
-
-    }
-
-    getZipData() {
-        var zipUrl = "https://data.cityofchicago.org/resource/yhhz-zm2v.json";
-
-        fetch(zipUrl)
-            .then((resonse) => {
-                return resonse.json();
-            }).then((data) => {
-                this.constructZipData(data);
-            });
-    }
-
-    getAgeData() {
-        var ageUrl = "https://data.cityofchicago.org/resource/naz8-j4nc.json";
-
-        fetch(ageUrl)
-            .then((response) => {
-                return response.json();
-            })
-            .then((data) => {
-                this.constrcutAgeData(data);
-            })
     }
 
     constrcutAgeData(dataArray) {
@@ -118,9 +94,11 @@ class StatsWindow extends React.Component {
 
     }
 
-    componentDidMount() {
-        this.getZipData();
-        this.getAgeData();
+    async componentDidMount() {
+        var zipData = await getZipData()
+        var ageData = await getAgeData();
+        this.constructZipData(zipData);
+        this.constrcutAgeData(ageData);
     }
 
     handleSubmit(event) {
@@ -128,6 +106,9 @@ class StatsWindow extends React.Component {
     }
 
     render() {
+        if(this.state.redirectHome)
+            return <Redirect push to="/home"/>
+
         var optionsObjzip = {
             responsive: true,
             maintainAspectRatio: true,
@@ -210,11 +191,4 @@ class StatsWindow extends React.Component {
     }
 }
 
-export default function StatsPage(props) {
-    let query = useQuery();
-    return (<StatsWindow classes={props.classes} zip={query.get("zip")} age={query.get("age")} />);
-}
 
-function useQuery() {
-    return new URLSearchParams(useLocation().search);
-}
