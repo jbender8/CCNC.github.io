@@ -269,7 +269,6 @@ class SubmitForm extends React.Component {
             zip: event.target.value,
             url: finalURL
         });
-        console.log(this.state);
     }
 
     handleAgeChange(event) {
@@ -281,7 +280,6 @@ class SubmitForm extends React.Component {
             age: event.target.value,
             url: finalURL
         });
-        console.log(this.state);
     }
 
     handleSubmit(event) {
