@@ -17,6 +17,7 @@ import logo from './corona.png';
 import './App.css';
 import InputBase from '@material-ui/core/InputBase';
 import Button from '@material-ui/core/Button';
+import {CircularProgress} from '@material-ui/core';
 
 import {
     BrowserRouter as Router,
@@ -216,7 +217,8 @@ function Home() {
                 </header>
             </div>
             <Footer />
-        </main>);
+        </main>
+    );
 }
 
 function Stats() {
@@ -225,10 +227,8 @@ function Stats() {
     var zip = query.get("zip")
     var age = query.get("age")
     const [resposne, setResponse] = useState('');
-
+    
     useEffect(() => {
-        // You need to restrict it at some point
-        // This is just dummy code and should be replaced by actual
         if (!resposne) {
             getData();
         }
@@ -239,14 +239,14 @@ function Stats() {
         setResponse(data);
     };
 
-    return (resposne == "" || resposne.map(t => t.zip_code).includes(zip) ? ( 
-        <div>
+    return (resposne == "" || (
+            !isNaN(age) && parseInt(age) > 1 && resposne.map(t => t.zip_code).includes(zip)) ? ( 
+        (<div>
             <StatsWindow classes={classes} zip={query.get("zip")} age={query.get("age")} />
             <Footer />
-        </div>
+        </div>)
     ) : <Redirect push to="/home?error=true"/>);
 }
-
 
 function useQuery() {
     return new URLSearchParams(useLocation().search);
@@ -262,7 +262,6 @@ function News() {
         </div>
 
     );
-
 }
 
 /* form work for Home Page */
