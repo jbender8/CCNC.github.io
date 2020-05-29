@@ -85,11 +85,9 @@ const useStyles = makeStyles((theme) => ({
         fontSize: 15,
     },
     footer: {
-        marginLeft: 20,
-        fontSize: 17,
         color: 'white',
-        background: "#282c34"
-
+        background: "#282c34",
+        fontSize: 17,
     },
     appBar2: {
         top: 'auto',
@@ -153,7 +151,7 @@ export default function App() {
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h6" noWrap>
-                        WebApps Final
+                        CCNC
                     </Typography>
                 </Toolbar>
             </AppBar>
@@ -170,7 +168,7 @@ export default function App() {
                 >
                     <div className={classes.drawerHeader}>
                         <IconButton onClick={handleDrawerClose} aria-label="close drawer">
-                            {theme.direction === 'ltr' ? <ChevronLeftIcon aria-label="open drawer" color="primary" /> : <ChevronRightIcon aria-label="open drawer" color="primary" />}
+                            {theme.direction === 'ltr' ? <ChevronLeftIcon aria-label="left drawer" color="primary" /> : <ChevronRightIcon aria-label="right drawer" color="primary" />}
                         </IconButton>
                     </div>
                     <Divider />
@@ -210,7 +208,7 @@ function Home() {
             <div className="App">
                 <header className="App-header">
                     <img src={logo} className="App-logo" alt="Covid-19 logo" />
-                    <h1 style={{ fontSize: "35px" }}>COVID-19 Information</h1>
+                    <h1 style={{ fontSize: "35px" }}>Chicago COVID-19 Number Cruncher</h1>
                     <SubmitForm />
                 </header>
             </div>
@@ -343,7 +341,7 @@ function Footer() {
         <AppBar position='fixed' className={classes.appBar2}>
             <Typography variant='h2' className={classes.footer} >
                 © Copyright 2020
-        </Typography>
+            </Typography>
         </AppBar>
     );
 }
