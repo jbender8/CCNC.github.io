@@ -1,16 +1,10 @@
 import React from "react";
-import {
-    Route,
-    useLocation,
-    Redirect,
-    NavLink
-} from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { Bar, Pie, Doughnut } from "react-chartjs-2";
 import moment from "moment";
 import Button from '@material-ui/core/Button';
 import Toolbar from '@material-ui/core/Toolbar';
-import {getZipData, getAgeData} from './ApiModule';
-import { wait } from "@testing-library/react";
+import { getZipData, getAgeData } from './ApiModule';
 
 export default class StatsWindow extends React.Component {
     constructor(props) {
@@ -106,8 +100,8 @@ export default class StatsWindow extends React.Component {
     }
 
     render() {
-        if(this.state.redirectHome)
-            return <Redirect push to="/home"/>
+        if (this.state.redirectHome)
+            return <Redirect push to="/home" />
 
         var optionsObjzip = {
             responsive: true,
@@ -180,7 +174,7 @@ export default class StatsWindow extends React.Component {
                             }
                             role="img"
                         ></canvas>
-                        <Button className="updateButton" style={{ color: "white" }} onClick={this.handleSubmit}>
+                        <Button className="updateButton stat" style={{ color: "white" }} onClick={this.handleSubmit}>
                             GET LATEST NEWS
                         </Button>
                         <Toolbar />

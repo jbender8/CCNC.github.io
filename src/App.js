@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import clsx from 'clsx';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles, useTheme } from '@material-ui/core/styles'; 
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -17,19 +17,19 @@ import logo from './corona.png';
 import './App.css';
 import InputBase from '@material-ui/core/InputBase';
 import Button from '@material-ui/core/Button';
-import {CircularProgress} from '@material-ui/core';
+import Alert from '@material-ui/lab/Alert';
+
 
 import {
     BrowserRouter as Router,
     Switch,
     Route,
-    Link,
     Redirect,
     useLocation,
 } from "react-router-dom";
 import StatsWindow from "./StatsPage";
 import NewsPage from "./NewsPage";
-import { getZipData, getAgeData } from './ApiModule';
+import { getZipData } from './ApiModule';
 
 const drawerWidth = 200;
 
@@ -169,8 +169,8 @@ export default function App() {
                     }}
                 >
                     <div className={classes.drawerHeader}>
-                        <IconButton onClick={handleDrawerClose}>
-                            {theme.direction === 'ltr' ? <ChevronLeftIcon color="primary" /> : <ChevronRightIcon color="primary" />}
+                        <IconButton onClick={handleDrawerClose} aria-label="close drawer">
+                            {theme.direction === 'ltr' ? <ChevronLeftIcon aria-label="open drawer" color="primary" /> : <ChevronRightIcon aria-label="open drawer" color="primary" />}
                         </IconButton>
                     </div>
                     <Divider />
@@ -178,9 +178,6 @@ export default function App() {
                         <List component="nav">
                             <ListItem button component="a" href="/">
                                 <h1 className="textDrawer">Home</h1>
-                            </ListItem>
-                            <ListItem button component="a" href="/stats">
-                                <h1 className="textDrawer">Stats</h1>
                             </ListItem>
                             <ListItem button component="a" href="/news">
                                 <h1 className="textDrawer">News</h1>
@@ -208,7 +205,6 @@ export default function App() {
 /* ALL Function pages */
 function Home() {
     const classes = useStyles();
-    let query = useQuery();
     return (
         <main className={classes.content}>
             <div className="App">
@@ -216,7 +212,6 @@ function Home() {
                     <img src={logo} className="App-logo" alt="Covid-19 logo" />
                     <h1 style={{ fontSize: "35px" }}>COVID-19 Information</h1>
                     <SubmitForm />
-                    {query.get('error') ? <p>You must enter a valid zip code and age!</p> : <h1></h1>}
                 </header>
             </div>
             <Footer />
@@ -227,28 +222,11 @@ function Home() {
 function Stats() {
     const classes = useStyles();
     let query = useQuery();
-    var zip = query.get("zip")
-    var age = query.get("age")
-    const [response, setResponse] = useState('');
-    
-    useEffect(() => {
-        if (!response) {
-            getData();
-        }
-    }, []);
-
-    const getData = async () => {
-        const data = await getZipData()
-        setResponse(data);
-    };
-
-    return (response == "" || (
-            !isNaN(age) && parseInt(age) > 1 && response.map(t => t.zip_code).includes(zip)) ? ( 
-        (<div>
-            <StatsWindow classes={classes} zip={query.get("zip")} age={query.get("age")} />
-            <Footer />
-        </div>)
-    ) : <Redirect push to="/home?error=true"/>);
+    return (<div>
+        <StatsWindow classes={classes} zip={query.get("zip")} age={query.get("age")} />
+        <Footer />
+    </div>
+    );
 }
 
 function useQuery() {
@@ -256,7 +234,6 @@ function useQuery() {
 }
 
 function News() {
-    //Key word search ? Maybe add a query if needed
     const classes = useStyles();
     return (
         <div>
@@ -292,7 +269,8 @@ class SubmitForm extends React.Component {
         const finalURL = url + zip + age;
         this.setState({
             zip: event.target.value,
-            url: finalURL
+            url: finalURL,
+            error: false,
         });
     }
 
@@ -307,42 +285,53 @@ class SubmitForm extends React.Component {
         });
     }
 
-    handleSubmit(event) {
-        if (this.state.zip !== '' && this.state.age !== '') {
+    async handleSubmit(event) {
+        const response = await getZipData();
+        const test = (!isNaN(this.state.age) && parseInt(this.state.age) > 1 && response.map(t => t.zip_code).includes(this.state.zip))
+        if (this.state.zip !== '' && this.state.age !== '' && test) {
             this.setState({ redirect: true });
+        } else {
+            this.setState({
+                error: true,
+                zip: "",
+                age: ""
+            });
         }
     }
 
     render() {
-        const { redirect, url } = this.state;
-        // var targetUrl = this.state.url + "?zip=" + this.state.value;
+        const { redirect, error } = this.state;
         if (redirect) {
             return <Redirect push to={this.state.url} />
         }
         return (
-            <form>
-                <div className="formInput">
-                    <InputBase
-                        placeholder="Enter Chicago Zipcode"
-                        inputProps={{ 'aria-label': 'Enter Chicago Zipcode' }}
-                        value={this.state.zip}
-                        onChange={this.handleZipChange}
-                        style={{ padding: "10px" }}
-                    />
-                </div>
-                <div className="formInput">
-                    <InputBase
-                        placeholder="Enter your age"
-                        inputProps={{ 'aria-label': 'Enter your Age' }}
-                        value={this.state.age}
-                        onChange={this.handleAgeChange}
-                        style={{ padding: "10px" }}
-                    />
-                </div>
-                <Button className="updateButton" style={{ color: "white" }} onClick={this.handleSubmit}>
-                    SEARCH
+            <div className="sumbitArea">
+                <form>
+                    <div className="formInput">
+                        <InputBase
+                            placeholder="Enter Chicago Zipcode"
+                            inputProps={{ 'aria-label': 'Enter Chicago Zipcode' }}
+                            value={this.state.zip}
+                            onChange={this.handleZipChange}
+                            style={{ padding: "10px" }}
+                        />
+                    </div>
+                    <div className="formInput">
+                        <InputBase
+                            placeholder="Enter your age"
+                            inputProps={{ 'aria-label': 'Enter your Age' }}
+                            value={this.state.age}
+                            onChange={this.handleAgeChange}
+                            style={{ padding: "10px" }}
+                        />
+                    </div>
+                    <Button className="updateButton home" style={{ color: "white" }} onClick={this.handleSubmit}>
+                        SEARCH
                 </Button>
-            </form>
+                </form>
+                {error ? <Alert severity="error">Incorrect age or zipcode — enter in a valid Chicago zip and age!</Alert>
+                    : void 0}
+            </div>
         );
     }
 }
