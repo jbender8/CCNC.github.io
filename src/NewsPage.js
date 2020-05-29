@@ -39,7 +39,7 @@ function WeatherHolder(props) {
                     title={props.newsObj.title}
                     subheader={props.newsObj.published}
                 />
-                <img src={props.newsObj.image} maxHeight={500} width={400} mode='fit' /> 
+                <img src={props.newsObj.image} maxHeight={500} width={400} mode='fit' />
                 <CardContent>
                     <Typography variant="body2" color="textSecondary" component="p">
                         {props.newsObj.description}
@@ -100,7 +100,7 @@ class NewsWindow extends React.Component {
                     <div className="App">
                         <header className="App-header">
                             <Toolbar />
-                            <p>Articles on COVID-19</p>
+                            <h1 style={{ fontSize: "35px" }}>Articles on COVID-19</h1>
 
                             <Grid container spacing={1}>
                                 <Grid container item xs={12} spacing={3}>

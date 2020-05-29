@@ -66,7 +66,7 @@ class StatsWindow extends React.Component {
                 return 'rgba(75, 192, 192, 0.6)'
             }
             else {
-                return '#CCC';
+                return '#949494';
             }
         });
 
@@ -128,10 +128,41 @@ class StatsWindow extends React.Component {
     }
 
     render() {
-        var optionsObj = {
+        var optionsObjzip = {
             responsive: true,
-            maintainAspectRatio: true
+            maintainAspectRatio: true,
+            legend: {
+                labels: {
+                    fontColor: 'white',
+                    fontSize: 16
+                }
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                        fontColor: 'white'
+                    }
+                }],
+                xAxes: [{
+                    ticks: {
+                        fontColor: 'white'
+                    }
+                }]
+            }
         };
+
+        var optionsObjpie = {
+            responsive: true,
+            maintainAspectRatio: true,
+            legend: {
+                labels: {
+                    fontColor: 'white',
+                    fontSize: 16
+                }
+            }
+        };
+
         if (this.state.redirect) {
             return (<Redirect push to='/news' />);
         }
@@ -140,15 +171,34 @@ class StatsWindow extends React.Component {
                 <div className="App">
                     <header className="App-header">
                         <Toolbar />
-                        <p>Test by zip code: {this.state.zip}</p>
-                        <Bar height={110} options={optionsObj} data={this.state.zipDataObject} />
-                        <p>Cases by Age: {this.state.age}</p>
-                        <Doughnut
+                        <h1 style={{ fontSize: "35px" }}>Test by zip code: {this.state.zip}</h1>
+                        <Bar
+                            height={110}
+                            options={optionsObjzip}
+                            data={this.state.zipDataObject}
+                        />
+                        <canvas
+                            id="AccessibleBar"
+                            hight="1"
+                            aria-label={"Bar chart. x axis, week of. y axis, number of tests."
+                                + "week of ____ , ____ test"
+                            }
+                            role="img"
+                        ></canvas>
+                        <h1 style={{ fontSize: "35px" }}>Cases by Age: {this.state.age}</h1>
+                        <Pie
                             height={50}
-                            options={optionsObj}
+                            options={optionsObjpie}
                             data={this.state.pieDataObject}
                         />
-                        <br></br>
+                        <canvas
+                            id="AccessibleBar"
+                            hight="1"
+                            aria-label={"Pie chart."
+                                + "Ages 0-17, ____ cases"
+                            }
+                            role="img"
+                        ></canvas>
                         <Button className="updateButton" style={{ color: "white" }} onClick={this.handleSubmit}>
                             GET LATEST NEWS
                         </Button>
