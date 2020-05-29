@@ -229,10 +229,10 @@ function Stats() {
     let query = useQuery();
     var zip = query.get("zip")
     var age = query.get("age")
-    const [resposne, setResponse] = useState('');
+    const [response, setResponse] = useState('');
     
     useEffect(() => {
-        if (!resposne) {
+        if (!response) {
             getData();
         }
     }, []);
@@ -242,8 +242,8 @@ function Stats() {
         setResponse(data);
     };
 
-    return (resposne == "" || (
-            !isNaN(age) && parseInt(age) > 1 && resposne.map(t => t.zip_code).includes(zip)) ? ( 
+    return (response == "" || (
+            !isNaN(age) && parseInt(age) > 1 && response.map(t => t.zip_code).includes(zip)) ? ( 
         (<div>
             <StatsWindow classes={classes} zip={query.get("zip")} age={query.get("age")} />
             <Footer />
