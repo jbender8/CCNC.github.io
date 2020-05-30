@@ -1,6 +1,6 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
-import { Bar, Pie, Doughnut } from "react-chartjs-2";
+import { Bar, Doughnut } from "react-chartjs-2";
 import moment from "moment";
 import Button from '@material-ui/core/Button';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -204,34 +204,31 @@ export default class StatsWindow extends React.Component {
                 <div className="App">
                     <header className="App-header">
                         <Toolbar />
-                        <div className="barchart">
-                            <h1 style={{ fontSize: "35px" }}>Number of Tests Weekly by Zip Code: {this.state.zip}</h1>
-                            <Bar
-                                height={700}
-                                width={1800}
-                                options={optionsObjzip}
-                                data={this.state.zipDataObject}
-                            />
-                            <canvas
-                                id="AccessibleBar"
-                                hight="1"
-                                aria-label={"Bar chart. x axis, week of. y axis, number of tests."
-                                    + "week of " + this.state.zipweek1 + "," + this.state.zipdataforweek1 + " tests."
-                                    + "week of " + this.state.zipweek2 + "," + this.state.zipdataforweek2 + " tests."
-                                    + "week of " + this.state.zipweek3 + "," + this.state.zipdataforweek3 + " tests."
-                                    + "week of " + this.state.zipweek4 + "," + this.state.zipdataforweek4 + " tests."
-                                    + "week of " + this.state.zipweek5 + "," + this.state.zipdataforweek5 + " tests."
-                                    + "week of " + this.state.zipweek6 + "," + this.state.zipdataforweek6 + " tests."
-                                    + "week of " + this.state.zipweek7 + "," + this.state.zipdataforweek7 + " tests."
-                                    + "week of " + this.state.zipweek8 + "," + this.state.zipdataforweek8 + " tests."
-                                    + "week of " + this.state.zipweek9 + "," + this.state.zipdataforweek9 + " tests."
-                                    + "week of " + this.state.zipweek10 + "," + this.state.zipdataforweek10 + " tests."
-                                    + "week of " + this.state.zipweek11 + "," + this.state.zipdataforweek11 + " tests."
-                                    + "week of " + this.state.zipweek12 + "," + this.state.zipdataforweek12 + " tests."
-                                }
-                            ></canvas>
-                        </div>
-                        <h1 style={{ fontSize: "35px" }}>Number of Cases by Age: {this.state.age}</h1>
+                        <h1 style={{ fontSize: "35px" }}>Number of Tests Weekly by Zip Code: {this.state.zip}</h1>
+                        <Bar
+                            height={110}
+                            options={optionsObjzip}
+                            data={this.state.zipDataObject}
+                        />
+                        <canvas
+                            id="AccessibleBar"
+                            hight="1"
+                            aria-label={"Bar chart. x axis, week of. y axis, number of tests."
+                                + "week of " + this.state.zipweek1 + "," + this.state.zipdataforweek1 + " tests."
+                                + "week of " + this.state.zipweek2 + "," + this.state.zipdataforweek2 + " tests."
+                                + "week of " + this.state.zipweek3 + "," + this.state.zipdataforweek3 + " tests."
+                                + "week of " + this.state.zipweek4 + "," + this.state.zipdataforweek4 + " tests."
+                                + "week of " + this.state.zipweek5 + "," + this.state.zipdataforweek5 + " tests."
+                                + "week of " + this.state.zipweek6 + "," + this.state.zipdataforweek6 + " tests."
+                                + "week of " + this.state.zipweek7 + "," + this.state.zipdataforweek7 + " tests."
+                                + "week of " + this.state.zipweek8 + "," + this.state.zipdataforweek8 + " tests."
+                                + "week of " + this.state.zipweek9 + "," + this.state.zipdataforweek9 + " tests."
+                                + "week of " + this.state.zipweek10 + "," + this.state.zipdataforweek10 + " tests."
+                                + "week of " + this.state.zipweek11 + "," + this.state.zipdataforweek11 + " tests."
+                                + "week of " + this.state.zipweek12 + "," + this.state.zipdataforweek12 + " tests."
+                            }
+                        ></canvas>
+                        <h1 style={{ fontSize: "35px" }}>Number of Cases In Chicago Currently by Age: {this.state.age}</h1>
                         <Doughnut
                             height={50}
                             options={optionsObjpie}
