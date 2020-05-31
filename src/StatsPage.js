@@ -68,8 +68,12 @@ export default class StatsWindow extends React.Component {
             return element.zip_code == this.state.zip;
         });
 
-        var labels = targetData.map(element => moment.utc(element.week_start).format("MMMM Do"));
-        var deathsData = targetData.map(element => element.tests_weekly);
+        var sortedData = targetData.sort((ele1, ele2) =>{
+            return ele1.week_number < ele2.week_number? -1:1;
+        });
+
+        var labels = sortedData.map(element => moment.utc(element.week_start).format("MMMM Do"));
+        var deathsData = sortedData.map(element => element.tests_weekly);
 
         var zipDataObject = {
             labels: labels,
