@@ -18,6 +18,7 @@ import './App.css';
 import InputBase from '@material-ui/core/InputBase';
 import Button from '@material-ui/core/Button';
 import Alert from '@material-ui/lab/Alert';
+import { Grid } from '@material-ui/core';
 
 
 import {
@@ -208,8 +209,43 @@ function Home() {
             <div className="App">
                 <header className="App-header">
                     <img src={logo} className="App-logo" alt="Covid-19 logo" />
-                    <h1 style={{ fontSize: "35px" }}>Chicago COVID-19 Number Cruncher</h1>
+                    <Typography variant='h5'>Chicago COVID-19 Number Cruncher</Typography>
                     <SubmitForm />
+                    <div className="about">
+                        <Grid container item xs={12} spacing={3}>
+                            <Grid item xs={4}>
+                                <Typography variant='h5' color="primary">What is CCNC?</Typography>
+                            </Grid>
+                            <Grid item xs={4}>
+                                <Typography variant='h5' color="primary">Where can I find more information?</Typography>
+                            </Grid>
+                            <Grid item xs={4}>
+                                <Typography variant='h5' color="primary">How can I help Chicago recover?</Typography>
+                            </Grid>
+                        </Grid>
+                        <Grid container item xs={12} spacing={3}>
+                            <Grid item xs={4}>
+                                <Typography variant='h6'>
+                                    Chicago COVID-19 Number Cruncher provides testing statistics based on a Chicago Zipcode.
+                                    In addition, you can see how many cases surround people in your age gap.
+                                </Typography>
+                            </Grid>
+                            <Grid item xs={4}>
+                                <Typography variant='h6'>
+                                    Check out the news page to view articles surrounding COVID-19 in Chicago. This page will render
+                                    most popular articles at the point in which you access.
+                                </Typography>
+                            </Grid>
+                            <Grid item xs={4}>
+                                <Typography variant='h6'>
+                                    There are many places in need of donations to support the Chicago community. We encourage you to visit Chicago's COVID-19 <a href="https://www.chicagocovid19responsefund.org/">response fund</a>.
+                                </Typography>
+                            </Grid>
+                        </Grid>
+                    </div>
+
+
+                    <Toolbar />
                 </header>
             </div>
             <Footer />

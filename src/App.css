@@ -5,6 +5,8 @@
 }
 
 .App-logo {
+  margin-top: 10%;
+  margin-bottom: 1%;
   height: 20vmin;
   pointer-events: none;
 }
@@ -29,6 +31,7 @@ form{
 }
 
 .sumbitArea{
+  margin-top: 1%;
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -69,6 +72,15 @@ form{
   font-family: "Raleway";
   color: rgb(241, 228, 228);
   text-align: center;
+}
+
+.about{
+  margin-top: 1%;
+  padding-top: 1%;
+  padding-left: 5%;
+  padding-right: 5%;
+  margin-right: 5%;
+  margin-left: 5%;
 }
 
 @keyframes App-logo-spin {

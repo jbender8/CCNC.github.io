@@ -31,7 +31,7 @@ export default class StatsWindow extends React.Component {
 
         var backgroundColors = targetLabels.map((sliceString) => {
             var ageBounds = sliceString.replace("cases_age_", "").split('_');
-            if (ageBounds[1] == "") ageBounds[1] = "110";
+            if (ageBounds[1] === "") ageBounds[1] = "110";
             if ((parseInt(ageBounds[0]) <= this.state.age) && (this.state.age <= parseInt(ageBounds[1]))) {
                 return 'rgba(75, 192, 192, 0.6)'
             }
@@ -65,11 +65,11 @@ export default class StatsWindow extends React.Component {
 
     constructZipData(dataArray) {
         var targetData = dataArray.filter(element => {
-            return element.zip_code == this.state.zip;
+            return element.zip_code === this.state.zip;
         });
 
-        var sortedData = targetData.sort((ele1, ele2) =>{
-            return ele1.week_number < ele2.week_number? -1:1;
+        var sortedData = targetData.sort((ele1, ele2) => {
+            return ele1.week_number < ele2.week_number ? -1 : 1;
         });
 
         var labels = sortedData.map(element => moment.utc(element.week_start).format("MMMM Do"));

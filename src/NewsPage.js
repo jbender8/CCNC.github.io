@@ -1,13 +1,8 @@
 import React from "react";
-import { Link } from 'react-router-dom';
 import { makeStyles } from "@material-ui/core/styles";
-import { Card, CardHeader, CardMedia, CardContent, IconButton, Grid } from '@material-ui/core';
-import RefreshIcon from "@material-ui/icons/Refresh";
+import { Card, CardHeader, CardContent, Grid, CircularProgress } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
-import { ToggleButton, ToggleButtonGroup } from '@material-ui/lab';
-import moment from 'moment';
 import Toolbar from '@material-ui/core/Toolbar';
-import { findByLabelText } from "@testing-library/react";
 
 const useStyles = makeStyles({
     root: {
@@ -56,7 +51,7 @@ class NewsWindow extends React.Component {
         super(props);
         this.state = {
             classes: props.classes,
-            url: 'https://newsapi.org/v2/everything?q=COVID-19&from=2020-05-10&sortBy=popularity&apiKey=38aa0595ba1e473aabb6193e9e8940ad',
+            url: 'https://newsapi.org/v2/everything?q=Chicago%20COVID-19&from=2020-05-10&sortBy=popularity&apiKey=38aa0595ba1e473aabb6193e9e8940ad',
             listArticles: {},
         };
         this.retrieveNewsData({});
@@ -64,7 +59,7 @@ class NewsWindow extends React.Component {
 
     retrieveNewsData({ target }) {
         //5decfe986025127212ad9ae685327f91
-        fetch("https://gnews.io/api/v3/search?q=covid&image=required&token=5decfe986025127212ad9ae685327f91")
+        fetch("https://gnews.io/api/v3/search?q=chicago%20coronavirus&image=required&token=5decfe986025127212ad9ae685327f91")
             .then(resp => resp.json())
             .then(res => {
                 var newList = [];
@@ -78,9 +73,6 @@ class NewsWindow extends React.Component {
                         published: res.articles[i].publishedAt,
                         source: res.articles[i].source.name,
                     }
-                    console.log(res.articles[i].url);
-                    console.log(res.articles[i].image);
-
                     newList.push(newsapiobj);
                 }
                 this.setState({
@@ -140,9 +132,14 @@ class NewsWindow extends React.Component {
                     </div>
                 </main>)
         }
-        return (<div>
-            WAIT
-        </div>)
+        return (<main className={this.state.classes.content}>
+            <div className="App">
+                <header className="App-header">
+                    <Toolbar />
+                    <CircularProgress />
+                </header>
+            </div>
+        </main>)
     }
 }
 
