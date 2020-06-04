@@ -1,6 +1,6 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
-import { Bar, Pie, Doughnut } from "react-chartjs-2";
+import { Bar, Doughnut } from "react-chartjs-2";
 import moment from "moment";
 import Button from '@material-ui/core/Button';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -58,9 +58,16 @@ export default class StatsWindow extends React.Component {
         };
 
         this.setState({
-            pieDataObject: pieDataObject
+            pieDataObject: pieDataObject,
+            piedataget017: pieDataObject['datasets']['0']['data']['0'],
+            piedataget1829: pieDataObject['datasets']['0']['data']['1'],
+            piedataget3039: pieDataObject['datasets']['0']['data']['2'],
+            piedataget4049: pieDataObject['datasets']['0']['data']['3'],
+            piedataget5059: pieDataObject['datasets']['0']['data']['4'],
+            piedataget6069: pieDataObject['datasets']['0']['data']['5'],
+            piedataget7079: pieDataObject['datasets']['0']['data']['6'],
+            piedataget80: pieDataObject['datasets']['0']['data']['7']
         });
-
     }
 
     constructZipData(dataArray) {
@@ -88,8 +95,31 @@ export default class StatsWindow extends React.Component {
 
         this.setState({
             zipDataObject: zipDataObject,
+            zipweek1: zipDataObject["labels"]['0'],
+            zipweek2: zipDataObject["labels"]['1'],
+            zipweek3: zipDataObject["labels"]['2'],
+            zipweek4: zipDataObject["labels"]['3'],
+            zipweek5: zipDataObject["labels"]['4'],
+            zipweek6: zipDataObject["labels"]['5'],
+            zipweek7: zipDataObject["labels"]['6'],
+            zipweek8: zipDataObject["labels"]['7'],
+            zipweek9: zipDataObject["labels"]['8'],
+            zipweek10: zipDataObject["labels"]['9'],
+            zipweek11: zipDataObject["labels"]['10'],
+            zipweek12: zipDataObject["labels"]['11'],
+            zipdataforweek1: zipDataObject['datasets']['0']['data']['0'],
+            zipdataforweek2: zipDataObject['datasets']['0']['data']['1'],
+            zipdataforweek3: zipDataObject['datasets']['0']['data']['2'],
+            zipdataforweek4: zipDataObject['datasets']['0']['data']['3'],
+            zipdataforweek5: zipDataObject['datasets']['0']['data']['4'],
+            zipdataforweek6: zipDataObject['datasets']['0']['data']['5'],
+            zipdataforweek7: zipDataObject['datasets']['0']['data']['6'],
+            zipdataforweek8: zipDataObject['datasets']['0']['data']['7'],
+            zipdataforweek9: zipDataObject['datasets']['0']['data']['8'],
+            zipdataforweek10: zipDataObject['datasets']['0']['data']['9'],
+            zipdataforweek11: zipDataObject['datasets']['0']['data']['10'],
+            zipdataforweek12: zipDataObject['datasets']['0']['data']['11'],
         });
-
     }
 
     async componentDidMount() {
@@ -102,39 +132,67 @@ export default class StatsWindow extends React.Component {
     handleSubmit(event) {
         this.setState({ redirect: true });
     }
+    static defaultProps = {
+        displayLegend: true,
+        legendPosition: 'top',
+        displayXAxesLabel: true,
+        displayYAxesLabel: true,
+        responsive: true,
+        maintainAspectRatio: true,
+        beginAtZero: true
+
+    }
 
     render() {
         if (this.state.redirectHome)
             return <Redirect push to="/home" />
 
+
         var optionsObjzip = {
-            responsive: true,
-            maintainAspectRatio: true,
+            responsive: this.props.responsive,
+            maintainAspectRatio: this.props.maintainAspectRatio,
             legend: {
+                display: this.props.displayLegend,
+                position: this.props.legendPosition,
                 labels: {
                     fontColor: 'white',
-                    fontSize: 16
+                    fontSize: 16,
                 }
             },
             scales: {
                 yAxes: [{
                     ticks: {
-                        beginAtZero: true,
-                        fontColor: 'white'
+                        beginAtZero: this.props.beginAtZero,
+                        fontColor: 'white',
+                    },
+                    scaleLabel: {
+                        display: this.props.displayYAxesLabel,
+                        labelString: 'Number of Tests',
+                        fontColor: 'white',
+                        fontSize: 16,
                     }
+
                 }],
                 xAxes: [{
                     ticks: {
                         fontColor: 'white'
+                    },
+                    scaleLabel: {
+                        display: this.props.displayXAxesLabel,
+                        labelString: 'Week of',
+                        fontColor: 'white',
+                        fontSize: 16,
                     }
                 }]
             }
         };
 
         var optionsObjpie = {
-            responsive: true,
-            maintainAspectRatio: true,
+            responsive: this.props.responsive,
+            maintainAspectRatio: this.props.maintainAspectRatio,
             legend: {
+                display: this.props.displayLegend,
+                position: this.props.legendPosition,
                 labels: {
                     fontColor: 'white',
                     fontSize: 16
@@ -150,7 +208,7 @@ export default class StatsWindow extends React.Component {
                 <div className="App">
                     <header className="App-header">
                         <Toolbar />
-                        <h1 style={{ fontSize: "35px" }}>Test by zip code: {this.state.zip}</h1>
+                        <h1 style={{ fontSize: "35px" }}>Number of Tests Weekly by Zip Code: {this.state.zip}</h1>
                         <Bar
                             height={110}
                             options={optionsObjzip}
@@ -160,12 +218,22 @@ export default class StatsWindow extends React.Component {
                             id="AccessibleBar"
                             hight="1"
                             aria-label={"Bar chart. x axis, week of. y axis, number of tests."
-                                + "week of ____ , ____ test"
+                                + "week of " + this.state.zipweek1 + "," + this.state.zipdataforweek1 + " tests."
+                                + "week of " + this.state.zipweek2 + "," + this.state.zipdataforweek2 + " tests."
+                                + "week of " + this.state.zipweek3 + "," + this.state.zipdataforweek3 + " tests."
+                                + "week of " + this.state.zipweek4 + "," + this.state.zipdataforweek4 + " tests."
+                                + "week of " + this.state.zipweek5 + "," + this.state.zipdataforweek5 + " tests."
+                                + "week of " + this.state.zipweek6 + "," + this.state.zipdataforweek6 + " tests."
+                                + "week of " + this.state.zipweek7 + "," + this.state.zipdataforweek7 + " tests."
+                                + "week of " + this.state.zipweek8 + "," + this.state.zipdataforweek8 + " tests."
+                                + "week of " + this.state.zipweek9 + "," + this.state.zipdataforweek9 + " tests."
+                                + "week of " + this.state.zipweek10 + "," + this.state.zipdataforweek10 + " tests."
+                                + "week of " + this.state.zipweek11 + "," + this.state.zipdataforweek11 + " tests."
+                                + "week of " + this.state.zipweek12 + "," + this.state.zipdataforweek12 + " tests."
                             }
-                            role="img"
                         ></canvas>
-                        <h1 style={{ fontSize: "35px" }}>Cases by Age: {this.state.age}</h1>
-                        <Pie
+                        <h1 style={{ fontSize: "35px" }}>Number of Cases In Chicago Currently by Age: {this.state.age}</h1>
+                        <Doughnut
                             height={50}
                             options={optionsObjpie}
                             data={this.state.pieDataObject}
@@ -174,9 +242,15 @@ export default class StatsWindow extends React.Component {
                             id="AccessibleBar"
                             hight="1"
                             aria-label={"Pie chart."
-                                + "Ages 0-17, ____ cases"
+                                + "Ages 0 to 17," + this.state.piedataget017 + " cases."
+                                + "Ages 18 to 29," + this.state.piedataget1829 + " cases."
+                                + "Ages 30 to 39," + this.state.piedataget3039 + " cases."
+                                + "Ages 40 to 49," + this.state.piedataget4049 + " cases."
+                                + "Ages 50 to 59," + this.state.piedataget5059 + " cases."
+                                + "Ages 60 to 69," + this.state.piedataget6069 + " cases."
+                                + "Ages 70 to 79," + this.state.piedataget7079 + " cases."
+                                + "Ages 80 plus," + this.state.piedataget80 + " cases."
                             }
-                            role="img"
                         ></canvas>
                         <Button className="updateButton stat" style={{ color: "white" }} onClick={this.handleSubmit}>
                             GET LATEST NEWS
