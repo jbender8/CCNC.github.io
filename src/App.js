@@ -13,25 +13,16 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import Divider from '@material-ui/core/Divider';
 import MenuIcon from '@material-ui/icons/Menu';
-import logo from './corona.png';
 import './App.css';
-import InputBase from '@material-ui/core/InputBase';
-import Button from '@material-ui/core/Button';
-import Alert from '@material-ui/lab/Alert';
-import { Grid } from '@material-ui/core';
-
-
 import {
     BrowserRouter as Router,
     Switch,
     Route,
-    Redirect,
     useLocation,
 } from "react-router-dom";
 import StatsWindow from "./StatsPage";
 import NewsPage from "./NewsPage";
-import { getZipData } from './ApiModule';
-
+import HomeWindow from "./HomePage";
 const drawerWidth = 200;
 
 const useStyles = makeStyles((theme) => ({
@@ -79,18 +70,12 @@ const useStyles = makeStyles((theme) => ({
         ...theme.mixins.toolbar,
         justifyContent: 'flex-end',
     },
-    linkStyle: {
-        fontSize: 20,
-    },
-    labelStyle: {
-        fontSize: 15,
-    },
     footer: {
         color: 'white',
         background: "#282c34",
         fontSize: 17,
     },
-    appBar2: {
+    footerBar: {
         top: 'auto',
         bottom: 0,
         marginLeft: drawerWidth,
@@ -109,13 +94,6 @@ const useStyles = makeStyles((theme) => ({
         top: 0,
         overflow: "hidden",
         zIndex: -1,
-    },
-    contentShift: {
-        transition: theme.transitions.create('margin', {
-            easing: theme.transitions.easing.easeOut,
-            duration: theme.transitions.duration.enteringScreen,
-        }),
-        marginLeft: 0,
     },
 }));
 
@@ -204,53 +182,10 @@ export default function App() {
 /* ALL Function pages */
 function Home() {
     const classes = useStyles();
-    return (
-        <main className={classes.content}>
-            <div className="App">
-                <header className="App-header">
-                    <img src={logo} className="App-logo" alt="Covid-19 logo" />
-                    <Typography variant='h5'>Chicago COVID-19 Number Cruncher</Typography>
-                    <SubmitForm />
-                    <div className="about">
-                        <Grid container item xs={12} spacing={3}>
-                            <Grid item xs={4}>
-                                <Typography variant='h5' color="primary">What is CCNC?</Typography>
-                            </Grid>
-                            <Grid item xs={4}>
-                                <Typography variant='h5' color="primary">Where can I find more information?</Typography>
-                            </Grid>
-                            <Grid item xs={4}>
-                                <Typography variant='h5' color="primary">How can I help Chicago recover?</Typography>
-                            </Grid>
-                        </Grid>
-                        <Grid container item xs={12} spacing={3}>
-                            <Grid item xs={4}>
-                                <Typography variant='h6'>
-                                    Chicago COVID-19 Number Cruncher provides testing statistics based on a Chicago Zipcode.
-                                    In addition, you can see how many cases surround people in your age gap.
-                                </Typography>
-                            </Grid>
-                            <Grid item xs={4}>
-                                <Typography variant='h6'>
-                                    Check out the news page to view articles surrounding COVID-19 in Chicago. This page will render
-                                    most popular articles at the point in which you access.
-                                </Typography>
-                            </Grid>
-                            <Grid item xs={4}>
-                                <Typography variant='h6'>
-                                    There are many places in need of donations to support the Chicago community. We encourage you to visit Chicago's COVID-19 <a href="https://www.chicagocovid19responsefund.org/">response fund</a>.
-                                </Typography>
-                            </Grid>
-                        </Grid>
-                    </div>
-
-
-                    <Toolbar />
-                </header>
-            </div>
-            <Footer />
-        </main>
-    );
+    return (<div>
+        <HomeWindow classes={classes} />
+        <Footer />
+    </div>);
 }
 
 function Stats() {
@@ -278,103 +213,11 @@ function News() {
     );
 }
 
-/* form work for Home Page */
-class SubmitForm extends React.Component {
-    /*
-    *  Home page to submit the zip code and direct to Stats page
-    */
-    constructor(props) {
-        super(props);
-        this.state = {
-            zip: '',
-            age: '',
-            url: '/stats?zip=',
-            redirect: false
-        };
-        this.handleZipChange = this.handleZipChange.bind(this);
-        this.handleAgeChange = this.handleAgeChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
-
-    handleZipChange(event) {
-        const url = "/stats?zip=";
-        const zip = encodeURI(event.target.value);
-        const age = "&age=" + this.state.age;
-        const finalURL = url + zip + age;
-        this.setState({
-            zip: event.target.value,
-            url: finalURL,
-            error: false,
-        });
-    }
-
-    handleAgeChange(event) {
-        const url = "/stats?zip=";
-        const age = "&age=" + encodeURI(event.target.value);
-        const zip = this.state.zip;
-        const finalURL = url + zip + age;
-        this.setState({
-            age: event.target.value,
-            url: finalURL
-        });
-    }
-
-    async handleSubmit(event) {
-        const response = await getZipData();
-        const test = (!isNaN(this.state.age) && parseInt(this.state.age) > 1 && response.map(t => t.zip_code).includes(this.state.zip))
-        if (this.state.zip !== '' && this.state.age !== '' && test) {
-            this.setState({ redirect: true });
-        } else {
-            this.setState({
-                error: true,
-                zip: "",
-                age: ""
-            });
-        }
-    }
-
-    render() {
-        const { redirect, error } = this.state;
-        if (redirect) {
-            return <Redirect push to={this.state.url} />
-        }
-        return (
-            <div className="sumbitArea">
-                <form>
-                    <div className="formInput">
-                        <InputBase
-                            placeholder="Enter Chicago Zipcode"
-                            inputProps={{ 'aria-label': 'Enter Chicago Zipcode' }}
-                            value={this.state.zip}
-                            onChange={this.handleZipChange}
-                            style={{ padding: "10px" }}
-                        />
-                    </div>
-                    <div className="formInput">
-                        <InputBase
-                            placeholder="Enter your age"
-                            inputProps={{ 'aria-label': 'Enter your Age' }}
-                            value={this.state.age}
-                            onChange={this.handleAgeChange}
-                            style={{ padding: "10px" }}
-                        />
-                    </div>
-                    <Button className="updateButton home" style={{ color: "white" }} onClick={this.handleSubmit}>
-                        SEARCH
-                </Button>
-                </form>
-                {error ? <Alert severity="error">Incorrect age or zipcode — enter in a valid Chicago zip and age!</Alert>
-                    : void 0}
-            </div>
-        );
-    }
-}
-
 // Styles and imports were ommited
 function Footer() {
     const classes = useStyles();
     return (
-        <AppBar position='fixed' className={classes.appBar2}>
+        <AppBar position='fixed' className={classes.footerBar}>
             <Typography variant='h2' className={classes.footer} >
                 © Copyright 2020
             </Typography>
