@@ -95,30 +95,6 @@ export default class StatsWindow extends React.Component {
 
         this.setState({
             zipDataObject: zipDataObject,
-            zipweek1: zipDataObject["labels"]['0'],
-            zipweek2: zipDataObject["labels"]['1'],
-            zipweek3: zipDataObject["labels"]['2'],
-            zipweek4: zipDataObject["labels"]['3'],
-            zipweek5: zipDataObject["labels"]['4'],
-            zipweek6: zipDataObject["labels"]['5'],
-            zipweek7: zipDataObject["labels"]['6'],
-            zipweek8: zipDataObject["labels"]['7'],
-            zipweek9: zipDataObject["labels"]['8'],
-            zipweek10: zipDataObject["labels"]['9'],
-            zipweek11: zipDataObject["labels"]['10'],
-            zipweek12: zipDataObject["labels"]['11'],
-            zipdataforweek1: zipDataObject['datasets']['0']['data']['0'],
-            zipdataforweek2: zipDataObject['datasets']['0']['data']['1'],
-            zipdataforweek3: zipDataObject['datasets']['0']['data']['2'],
-            zipdataforweek4: zipDataObject['datasets']['0']['data']['3'],
-            zipdataforweek5: zipDataObject['datasets']['0']['data']['4'],
-            zipdataforweek6: zipDataObject['datasets']['0']['data']['5'],
-            zipdataforweek7: zipDataObject['datasets']['0']['data']['6'],
-            zipdataforweek8: zipDataObject['datasets']['0']['data']['7'],
-            zipdataforweek9: zipDataObject['datasets']['0']['data']['8'],
-            zipdataforweek10: zipDataObject['datasets']['0']['data']['9'],
-            zipdataforweek11: zipDataObject['datasets']['0']['data']['10'],
-            zipdataforweek12: zipDataObject['datasets']['0']['data']['11'],
         });
     }
 
@@ -203,6 +179,15 @@ export default class StatsWindow extends React.Component {
         if (this.state.redirect) {
             return (<Redirect push to='/news' />);
         }
+
+        var ariaLabelString = "Bar chart. x axis, week of. y axis, number of tests.";
+        if(this.state.zipDataObject){
+            this.state.zipDataObject.datasets[0].data.forEach((element, index) =>{
+                var numTests = element;
+                var week = this.state.zipDataObject.labels[index];
+                ariaLabelString += " Week of " + week + ", " + numTests + " tests."
+            });
+        }
         return (
             <main className={this.state.classes.content}>
                 <div className="App">
@@ -217,20 +202,7 @@ export default class StatsWindow extends React.Component {
                         <canvas
                             id="AccessibleBar"
                             hight="1"
-                            aria-label={"Bar chart. x axis, week of. y axis, number of tests."
-                                + "week of " + this.state.zipweek1 + "," + this.state.zipdataforweek1 + " tests."
-                                + "week of " + this.state.zipweek2 + "," + this.state.zipdataforweek2 + " tests."
-                                + "week of " + this.state.zipweek3 + "," + this.state.zipdataforweek3 + " tests."
-                                + "week of " + this.state.zipweek4 + "," + this.state.zipdataforweek4 + " tests."
-                                + "week of " + this.state.zipweek5 + "," + this.state.zipdataforweek5 + " tests."
-                                + "week of " + this.state.zipweek6 + "," + this.state.zipdataforweek6 + " tests."
-                                + "week of " + this.state.zipweek7 + "," + this.state.zipdataforweek7 + " tests."
-                                + "week of " + this.state.zipweek8 + "," + this.state.zipdataforweek8 + " tests."
-                                + "week of " + this.state.zipweek9 + "," + this.state.zipdataforweek9 + " tests."
-                                + "week of " + this.state.zipweek10 + "," + this.state.zipdataforweek10 + " tests."
-                                + "week of " + this.state.zipweek11 + "," + this.state.zipdataforweek11 + " tests."
-                                + "week of " + this.state.zipweek12 + "," + this.state.zipdataforweek12 + " tests."
-                            }
+                            aria-label={ariaLabelString}
                         ></canvas>
                         <h1 style={{ fontSize: "35px" }}>Number of Cases In Chicago Currently by Age: {this.state.age}</h1>
                         <Doughnut
