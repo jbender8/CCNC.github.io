@@ -58,15 +58,7 @@ export default class StatsWindow extends React.Component {
         };
 
         this.setState({
-            pieDataObject: pieDataObject,
-            piedataget017: pieDataObject['datasets']['0']['data']['0'],
-            piedataget1829: pieDataObject['datasets']['0']['data']['1'],
-            piedataget3039: pieDataObject['datasets']['0']['data']['2'],
-            piedataget4049: pieDataObject['datasets']['0']['data']['3'],
-            piedataget5059: pieDataObject['datasets']['0']['data']['4'],
-            piedataget6069: pieDataObject['datasets']['0']['data']['5'],
-            piedataget7079: pieDataObject['datasets']['0']['data']['6'],
-            piedataget80: pieDataObject['datasets']['0']['data']['7']
+            pieDataObject: pieDataObject
         });
     }
 
@@ -180,14 +172,27 @@ export default class StatsWindow extends React.Component {
             return (<Redirect push to='/news' />);
         }
 
-        var ariaLabelString = "Bar chart. x axis, week of. y axis, number of tests.";
+        var zipAriaLabel = "Bar chart. x axis, week of. y axis, number of tests.";
         if(this.state.zipDataObject){
             this.state.zipDataObject.datasets[0].data.forEach((element, index) =>{
                 var numTests = element;
                 var week = this.state.zipDataObject.labels[index];
-                ariaLabelString += " Week of " + week + ", " + numTests + " tests."
+                zipAriaLabel += ` Week of ${week}, ${numTests} tests.`;
             });
         }
+        
+        var ageAriaLabel = "Pie chart. ";
+        if(this.state.pieDataObject){
+            this.state.pieDataObject.datasets[0].data.forEach((element, index) =>{
+                var ageRange = this.state.pieDataObject.labels[index];
+                var numCases = element;
+                ageAriaLabel += 
+                    (!ageRange.includes("80")) ? `Ages ${ageRange.split('-')[0]} to ${ageRange.split('-')[1]}, ${numCases} cases. ` 
+                    : `Ages ${ageRange.split('+')[0]} plus, ${numCases} cases. `;
+
+            });
+        }
+
         return (
             <main className={this.state.classes.content}>
                 <div className="App">
@@ -202,7 +207,7 @@ export default class StatsWindow extends React.Component {
                         <canvas
                             id="AccessibleBar"
                             hight="1"
-                            aria-label={ariaLabelString}
+                            aria-label={zipAriaLabel}
                         ></canvas>
                         <h1 style={{ fontSize: "35px" }}>Number of Cases In Chicago Currently by Age: {this.state.age}</h1>
                         <Doughnut
@@ -213,16 +218,7 @@ export default class StatsWindow extends React.Component {
                         <canvas
                             id="AccessibleBar"
                             hight="1"
-                            aria-label={"Pie chart."
-                                + "Ages 0 to 17," + this.state.piedataget017 + " cases."
-                                + "Ages 18 to 29," + this.state.piedataget1829 + " cases."
-                                + "Ages 30 to 39," + this.state.piedataget3039 + " cases."
-                                + "Ages 40 to 49," + this.state.piedataget4049 + " cases."
-                                + "Ages 50 to 59," + this.state.piedataget5059 + " cases."
-                                + "Ages 60 to 69," + this.state.piedataget6069 + " cases."
-                                + "Ages 70 to 79," + this.state.piedataget7079 + " cases."
-                                + "Ages 80 plus," + this.state.piedataget80 + " cases."
-                            }
+                            aria-label={ageAriaLabel}
                         ></canvas>
                         <Button className="updateButton stat" style={{ color: "white" }} onClick={this.handleSubmit}>
                             GET LATEST NEWS
