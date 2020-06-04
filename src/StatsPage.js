@@ -1,6 +1,6 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
-import { Bar, Pie, Doughnut } from "react-chartjs-2";
+import { Bar, Doughnut } from "react-chartjs-2";
 import moment from "moment";
 import Button from '@material-ui/core/Button';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -60,7 +60,6 @@ export default class StatsWindow extends React.Component {
         this.setState({
             pieDataObject: pieDataObject
         });
-
     }
 
     constructZipData(dataArray) {
@@ -89,7 +88,6 @@ export default class StatsWindow extends React.Component {
         this.setState({
             zipDataObject: zipDataObject,
         });
-
     }
 
     async componentDidMount() {
@@ -102,39 +100,67 @@ export default class StatsWindow extends React.Component {
     handleSubmit(event) {
         this.setState({ redirect: true });
     }
+    static defaultProps = {
+        displayLegend: true,
+        legendPosition: 'top',
+        displayXAxesLabel: true,
+        displayYAxesLabel: true,
+        responsive: true,
+        maintainAspectRatio: true,
+        beginAtZero: true
+
+    }
 
     render() {
         if (this.state.redirectHome)
             return <Redirect push to="/home" />
 
+
         var optionsObjzip = {
-            responsive: true,
-            maintainAspectRatio: true,
+            responsive: this.props.responsive,
+            maintainAspectRatio: this.props.maintainAspectRatio,
             legend: {
+                display: this.props.displayLegend,
+                position: this.props.legendPosition,
                 labels: {
                     fontColor: 'white',
-                    fontSize: 16
+                    fontSize: 16,
                 }
             },
             scales: {
                 yAxes: [{
                     ticks: {
-                        beginAtZero: true,
-                        fontColor: 'white'
+                        beginAtZero: this.props.beginAtZero,
+                        fontColor: 'white',
+                    },
+                    scaleLabel: {
+                        display: this.props.displayYAxesLabel,
+                        labelString: 'Number of Tests',
+                        fontColor: 'white',
+                        fontSize: 16,
                     }
+
                 }],
                 xAxes: [{
                     ticks: {
                         fontColor: 'white'
+                    },
+                    scaleLabel: {
+                        display: this.props.displayXAxesLabel,
+                        labelString: 'Week of',
+                        fontColor: 'white',
+                        fontSize: 16,
                     }
                 }]
             }
         };
 
         var optionsObjpie = {
-            responsive: true,
-            maintainAspectRatio: true,
+            responsive: this.props.responsive,
+            maintainAspectRatio: this.props.maintainAspectRatio,
             legend: {
+                display: this.props.displayLegend,
+                position: this.props.legendPosition,
                 labels: {
                     fontColor: 'white',
                     fontSize: 16
@@ -145,12 +171,34 @@ export default class StatsWindow extends React.Component {
         if (this.state.redirect) {
             return (<Redirect push to='/news' />);
         }
+
+        var zipAriaLabel = "Bar chart. x axis, week of. y axis, number of tests.";
+        if(this.state.zipDataObject){
+            this.state.zipDataObject.datasets[0].data.forEach((element, index) =>{
+                var numTests = element;
+                var week = this.state.zipDataObject.labels[index];
+                zipAriaLabel += ` Week of ${week}, ${numTests} tests.`;
+            });
+        }
+        
+        var ageAriaLabel = "Pie chart. ";
+        if(this.state.pieDataObject){
+            this.state.pieDataObject.datasets[0].data.forEach((element, index) =>{
+                var ageRange = this.state.pieDataObject.labels[index];
+                var numCases = element;
+                ageAriaLabel += 
+                    (!ageRange.includes("80")) ? `Ages ${ageRange.split('-')[0]} to ${ageRange.split('-')[1]}, ${numCases} cases. ` 
+                    : `Ages ${ageRange.split('+')[0]} plus, ${numCases} cases. `;
+
+            });
+        }
+
         return (
             <main className={this.state.classes.content}>
                 <div className="App">
                     <header className="App-header">
                         <Toolbar />
-                        <h1 style={{ fontSize: "35px" }}>Test by zip code: {this.state.zip}</h1>
+                        <h1 style={{ fontSize: "35px" }}>Number of Tests Weekly by Zip Code: {this.state.zip}</h1>
                         <Bar
                             height={110}
                             options={optionsObjzip}
@@ -159,13 +207,10 @@ export default class StatsWindow extends React.Component {
                         <canvas
                             id="AccessibleBar"
                             hight="1"
-                            aria-label={"Bar chart. x axis, week of. y axis, number of tests."
-                                + "week of ____ , ____ test"
-                            }
-                            role="img"
+                            aria-label={zipAriaLabel}
                         ></canvas>
-                        <h1 style={{ fontSize: "35px" }}>Cases by Age: {this.state.age}</h1>
-                        <Pie
+                        <h1 style={{ fontSize: "35px" }}>Number of Cases In Chicago Currently by Age: {this.state.age}</h1>
+                        <Doughnut
                             height={50}
                             options={optionsObjpie}
                             data={this.state.pieDataObject}
@@ -173,10 +218,7 @@ export default class StatsWindow extends React.Component {
                         <canvas
                             id="AccessibleBar"
                             hight="1"
-                            aria-label={"Pie chart."
-                                + "Ages 0-17, ____ cases"
-                            }
-                            role="img"
+                            aria-label={ageAriaLabel}
                         ></canvas>
                         <Button className="updateButton stat" style={{ color: "white" }} onClick={this.handleSubmit}>
                             GET LATEST NEWS
