@@ -182,7 +182,7 @@ export default class StatsWindow extends React.Component {
             });
         }
 
-        var ageAriaLabel = "Pie chart. ";
+        var ageAriaLabel = "Doughnut chart. ";
         if (this.state.pieDataObject) {
             this.state.pieDataObject.datasets[0].data.forEach((element, index) => {
                 var ageRange = this.state.pieDataObject.labels[index];
