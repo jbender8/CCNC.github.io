@@ -115,8 +115,11 @@ export default class StatsWindow extends React.Component {
         displayYAxesLabel: true,
         responsive: true,
         maintainAspectRatio: true,
-        beginAtZero: true
-
+        beginAtZero: true,
+        displayYAxes: true,
+        displayXAxes: true,
+        displayYAxesGridlines: true,
+        displayXAxesGridlines: true,
     }
 
     render() {
@@ -137,6 +140,11 @@ export default class StatsWindow extends React.Component {
             },
             scales: {
                 yAxes: [{
+                    display: this.props.displayYAxes,
+                    gridLines: {
+                        display: this.props.displayYAxesGridlines,
+                        color: "#0d0d0d"
+                    },
                     ticks: {
                         beginAtZero: this.props.beginAtZero,
                         fontColor: 'white',
@@ -150,6 +158,11 @@ export default class StatsWindow extends React.Component {
 
                 }],
                 xAxes: [{
+                    display: this.props.displayXAxes,
+                    gridLines: {
+                        display: this.props.displayXAxesGridlines,
+                        color: "#0d0d0d"
+                    },
                     ticks: {
                         fontColor: 'white'
                     },
@@ -157,7 +170,7 @@ export default class StatsWindow extends React.Component {
                         display: this.props.displayXAxesLabel,
                         labelString: 'Week of',
                         fontColor: 'white',
-                        fontSize: 16,
+                        fontSize: 18,
                     }
                 }]
             }
