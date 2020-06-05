@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Card, CardHeader, CardContent, Grid, CircularProgress } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import Toolbar from '@material-ui/core/Toolbar';
+import * as moment from 'moment';
 
 const useStyles = makeStyles({
     root: {
@@ -32,7 +33,7 @@ function WeatherHolder(props) {
             <Card className={cardHolder.root}>
                 <CardHeader
                     title={props.newsObj.title}
-                    subheader={props.newsObj.published}
+                    subheader={moment(props.newsObj.published).format('dddd, MMMM Do YYYY, h:mm:ss a')}
                 />
                 <img src={props.newsObj.image} alt={props.newsObj.source} maxHeight={500} width={400} mode='fit' />
                 <CardContent>
