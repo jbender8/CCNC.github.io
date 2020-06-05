@@ -33,7 +33,8 @@ export default class StatsWindow extends React.Component {
             var ageBounds = sliceString.replace("cases_age_", "").split('_');
             if (ageBounds[1] === "") ageBounds[1] = "110";
             if ((parseInt(ageBounds[0]) <= this.state.age) && (this.state.age <= parseInt(ageBounds[1]))) {
-                return 'rgba(75, 192, 192, 0.6)'
+                return 'rgb(29, 39, 94)'
+
             }
             else {
                 return '#949494';
@@ -52,7 +53,7 @@ export default class StatsWindow extends React.Component {
                 {
                     data: targetData,
                     backgroundColor: backgroundColors,
-                    hoverBackgroundColor: ['#1b1b5c', '#63206c', '#9f276f', '#d33d66', '#f86356', '#ff9342', '#ffc734', '#fffc45']
+                    hoverBackgroundColor: ['#B7D9E4', '#63206c', '#9f276f', '#d33d66', '#f86356', '#ff9342', '#ffc734', '#fffc45']
                 }
             ]
         };
@@ -80,7 +81,7 @@ export default class StatsWindow extends React.Component {
                 {
                     label: 'Tests Per Week',
                     data: deathsData,
-                    backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                    backgroundColor: 'rgb(110, 7, 114)',
                 }
             ]
         };
@@ -173,22 +174,22 @@ export default class StatsWindow extends React.Component {
         }
 
         var zipAriaLabel = "Bar chart. x axis, week of. y axis, number of tests.";
-        if(this.state.zipDataObject){
-            this.state.zipDataObject.datasets[0].data.forEach((element, index) =>{
+        if (this.state.zipDataObject) {
+            this.state.zipDataObject.datasets[0].data.forEach((element, index) => {
                 var numTests = element;
                 var week = this.state.zipDataObject.labels[index];
                 zipAriaLabel += ` Week of ${week}, ${numTests} tests.`;
             });
         }
-        
+
         var ageAriaLabel = "Pie chart. ";
-        if(this.state.pieDataObject){
-            this.state.pieDataObject.datasets[0].data.forEach((element, index) =>{
+        if (this.state.pieDataObject) {
+            this.state.pieDataObject.datasets[0].data.forEach((element, index) => {
                 var ageRange = this.state.pieDataObject.labels[index];
                 var numCases = element;
-                ageAriaLabel += 
-                    (!ageRange.includes("80")) ? `Ages ${ageRange.split('-')[0]} to ${ageRange.split('-')[1]}, ${numCases} cases. ` 
-                    : `Ages ${ageRange.split('+')[0]} plus, ${numCases} cases. `;
+                ageAriaLabel +=
+                    (!ageRange.includes("80")) ? `Ages ${ageRange.split('-')[0]} to ${ageRange.split('-')[1]}, ${numCases} cases. `
+                        : `Ages ${ageRange.split('+')[0]} plus, ${numCases} cases. `;
 
             });
         }
