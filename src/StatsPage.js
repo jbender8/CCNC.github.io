@@ -29,6 +29,12 @@ export default class StatsWindow extends React.Component {
             return rawTargetData[sliceString];
         });
 
+        var targetLabeldate = ["lab_report_date"];
+
+        var targetDatadate = targetLabeldate.map((sliceString) => {
+            return rawTargetData[sliceString];
+        });
+
         var backgroundColors = targetLabels.map((sliceString) => {
             var ageBounds = sliceString.replace("cases_age_", "").split('_');
             if (ageBounds[1] === "") ageBounds[1] = "110";
@@ -59,7 +65,8 @@ export default class StatsWindow extends React.Component {
         };
 
         this.setState({
-            pieDataObject: pieDataObject
+            pieDataObject: pieDataObject,
+            piedate: moment(targetDatadate, 'YYYY-MM-DDTHH:mm:ssZ').format("MMMM Do YYYY")
         });
     }
 
@@ -211,6 +218,7 @@ export default class StatsWindow extends React.Component {
                             aria-label={zipAriaLabel}
                         ></canvas>
                         <h1 style={{ fontSize: "35px" }}>Number of Cases In Chicago Currently by Age: {this.state.age}</h1>
+                        <h2 style={{ fontSize: "23px" }}>As of: {this.state.piedate}</h2>
                         <Doughnut
                             height={50}
                             options={optionsObjpie}
