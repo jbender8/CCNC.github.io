@@ -13,17 +13,6 @@ const useStyles = makeStyles({
         maxHeight: 800,
         minHeight: 300
     },
-    media: {
-        height: 0,
-        paddingTop: '56.25%', // 16:9
-    },
-    title: {
-        fontSize: 15
-    },
-    button_position: {
-        marginBottom: 15,
-        marginLeft: 15,
-    },
 });
 
 function WeatherHolder(props) {
@@ -52,15 +41,14 @@ class NewsWindow extends React.Component {
         super(props);
         this.state = {
             classes: props.classes,
-            url: 'https://newsapi.org/v2/everything?q=Chicago%20COVID-19&from=2020-05-10&sortBy=popularity&apiKey=38aa0595ba1e473aabb6193e9e8940ad',
+            url: 'https://gnews.io/api/v3/search?q=chicago%20coronavirus&image=required&token=5decfe986025127212ad9ae685327f91',
             listArticles: {},
         };
-        this.retrieveNewsData({});
+        this.retrieveNewsData();
     }
 
-    retrieveNewsData({ target }) {
-        //5decfe986025127212ad9ae685327f91
-        fetch("https://gnews.io/api/v3/search?q=chicago%20coronavirus&image=required&token=5decfe986025127212ad9ae685327f91")
+    retrieveNewsData() {
+        fetch(this.state.url)
             .then(resp => resp.json())
             .then(res => {
                 var newList = [];
@@ -85,47 +73,47 @@ class NewsWindow extends React.Component {
 
 
     render() {
-
+        const { classes, listArticles } = this.state;
         if (this.state.listArticles[0] !== undefined) {
             return (
-                <main className={this.state.classes.content}>
+                <main className={classes.content}>
                     <div className="App">
                         <header className="App-header">
                             <Toolbar />
                             <h1 style={{ fontSize: "35px" }}>Articles on COVID-19</h1>
 
-                            <Grid container spacing={1}>
+                            <Grid container justify="center" spacing={3}>
                                 <Grid container item xs={12} spacing={3}>
                                     <Grid item xs={4}>
-                                        <WeatherHolder newsObj={this.state.listArticles[0]} />
+                                        <WeatherHolder newsObj={listArticles[0]} />
                                     </Grid>
                                     <Grid item xs={4}>
-                                        <WeatherHolder newsObj={this.state.listArticles[1]} />
+                                        <WeatherHolder newsObj={listArticles[1]} />
                                     </Grid>
                                     <Grid item xs={4}>
-                                        <WeatherHolder newsObj={this.state.listArticles[2]} />
+                                        <WeatherHolder newsObj={listArticles[2]} />
                                     </Grid>
                                 </Grid>
                                 <Grid container item xs={12} spacing={3}>
                                     <Grid item xs={4}>
-                                        <WeatherHolder newsObj={this.state.listArticles[3]} />
+                                        <WeatherHolder newsObj={listArticles[3]} />
                                     </Grid>
                                     <Grid item xs={4}>
-                                        <WeatherHolder newsObj={this.state.listArticles[4]} />
+                                        <WeatherHolder newsObj={listArticles[4]} />
                                     </Grid>
                                     <Grid item xs={4}>
-                                        <WeatherHolder newsObj={this.state.listArticles[5]} />
+                                        <WeatherHolder newsObj={listArticles[5]} />
                                     </Grid>
                                 </Grid>
                                 <Grid container item xs={12} spacing={3}>
                                     <Grid item xs={4}>
-                                        <WeatherHolder newsObj={this.state.listArticles[6]} />
+                                        <WeatherHolder newsObj={listArticles[6]} />
                                     </Grid>
                                     <Grid item xs={4}>
-                                        <WeatherHolder newsObj={this.state.listArticles[7]} />
+                                        <WeatherHolder newsObj={listArticles[7]} />
                                     </Grid>
                                     <Grid item xs={4}>
-                                        <WeatherHolder newsObj={this.state.listArticles[8]} />
+                                        <WeatherHolder newsObj={listArticles[8]} />
                                     </Grid>
                                 </Grid>
                             </Grid>
@@ -133,7 +121,7 @@ class NewsWindow extends React.Component {
                     </div>
                 </main>)
         }
-        return (<main className={this.state.classes.content}>
+        return (<main className={classes.content}>
             <div className="App">
                 <header className="App-header">
                     <Toolbar />
