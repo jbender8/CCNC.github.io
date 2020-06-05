@@ -29,11 +29,18 @@ export default class StatsWindow extends React.Component {
             return rawTargetData[sliceString];
         });
 
+        var targetLabeldate = ["lab_report_date"];
+
+        var targetDatadate = targetLabeldate.map((sliceString) => {
+            return rawTargetData[sliceString];
+        });
+
         var backgroundColors = targetLabels.map((sliceString) => {
             var ageBounds = sliceString.replace("cases_age_", "").split('_');
             if (ageBounds[1] === "") ageBounds[1] = "110";
             if ((parseInt(ageBounds[0]) <= this.state.age) && (this.state.age <= parseInt(ageBounds[1]))) {
-                return 'rgba(75, 192, 192, 0.6)'
+                return 'rgb(29, 39, 94)'
+
             }
             else {
                 return '#949494';
@@ -52,13 +59,14 @@ export default class StatsWindow extends React.Component {
                 {
                     data: targetData,
                     backgroundColor: backgroundColors,
-                    hoverBackgroundColor: ['#1b1b5c', '#63206c', '#9f276f', '#d33d66', '#f86356', '#ff9342', '#ffc734', '#fffc45']
+                    hoverBackgroundColor: ['#B7D9E4', '#63206c', '#9f276f', '#d33d66', '#f86356', '#ff9342', '#ffc734', '#fffc45']
                 }
             ]
         };
 
         this.setState({
-            pieDataObject: pieDataObject
+            pieDataObject: pieDataObject,
+            piedate: moment(targetDatadate, 'YYYY-MM-DDTHH:mm:ssZ').format("MMMM Do YYYY")
         });
     }
 
@@ -80,7 +88,7 @@ export default class StatsWindow extends React.Component {
                 {
                     label: 'Tests Per Week',
                     data: deathsData,
-                    backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                    backgroundColor: 'rgb(110, 7, 114)',
                 }
             ]
         };
@@ -107,8 +115,11 @@ export default class StatsWindow extends React.Component {
         displayYAxesLabel: true,
         responsive: true,
         maintainAspectRatio: true,
-        beginAtZero: true
-
+        beginAtZero: true,
+        displayYAxes: true,
+        displayXAxes: true,
+        displayYAxesGridlines: true,
+        displayXAxesGridlines: true,
     }
 
     render() {
@@ -129,6 +140,11 @@ export default class StatsWindow extends React.Component {
             },
             scales: {
                 yAxes: [{
+                    display: this.props.displayYAxes,
+                    gridLines: {
+                        display: this.props.displayYAxesGridlines,
+                        color: "#0d0d0d"
+                    },
                     ticks: {
                         beginAtZero: this.props.beginAtZero,
                         fontColor: 'white',
@@ -142,6 +158,11 @@ export default class StatsWindow extends React.Component {
 
                 }],
                 xAxes: [{
+                    display: this.props.displayXAxes,
+                    gridLines: {
+                        display: this.props.displayXAxesGridlines,
+                        color: "#0d0d0d"
+                    },
                     ticks: {
                         fontColor: 'white'
                     },
@@ -149,7 +170,7 @@ export default class StatsWindow extends React.Component {
                         display: this.props.displayXAxesLabel,
                         labelString: 'Week of',
                         fontColor: 'white',
-                        fontSize: 16,
+                        fontSize: 18,
                     }
                 }]
             }
@@ -173,22 +194,22 @@ export default class StatsWindow extends React.Component {
         }
 
         var zipAriaLabel = "Bar chart. x axis, week of. y axis, number of tests.";
-        if(this.state.zipDataObject){
-            this.state.zipDataObject.datasets[0].data.forEach((element, index) =>{
+        if (this.state.zipDataObject) {
+            this.state.zipDataObject.datasets[0].data.forEach((element, index) => {
                 var numTests = element;
                 var week = this.state.zipDataObject.labels[index];
                 zipAriaLabel += ` Week of ${week}, ${numTests} tests.`;
             });
         }
-        
-        var ageAriaLabel = "Pie chart. ";
-        if(this.state.pieDataObject){
-            this.state.pieDataObject.datasets[0].data.forEach((element, index) =>{
+
+        var ageAriaLabel = "Doughnut chart. ";
+        if (this.state.pieDataObject) {
+            this.state.pieDataObject.datasets[0].data.forEach((element, index) => {
                 var ageRange = this.state.pieDataObject.labels[index];
                 var numCases = element;
-                ageAriaLabel += 
-                    (!ageRange.includes("80")) ? `Ages ${ageRange.split('-')[0]} to ${ageRange.split('-')[1]}, ${numCases} cases. ` 
-                    : `Ages ${ageRange.split('+')[0]} plus, ${numCases} cases. `;
+                ageAriaLabel +=
+                    (!ageRange.includes("80")) ? `Ages ${ageRange.split('-')[0]} to ${ageRange.split('-')[1]}, ${numCases} cases. `
+                        : `Ages ${ageRange.split('+')[0]} plus, ${numCases} cases. `;
 
             });
         }
@@ -210,6 +231,7 @@ export default class StatsWindow extends React.Component {
                             aria-label={zipAriaLabel}
                         ></canvas>
                         <h1 style={{ fontSize: "35px" }}>Number of Cases In Chicago Currently by Age: {this.state.age}</h1>
+                        <h2 style={{ fontSize: "23px" }}>As of: {this.state.piedate}</h2>
                         <Doughnut
                             height={50}
                             options={optionsObjpie}
