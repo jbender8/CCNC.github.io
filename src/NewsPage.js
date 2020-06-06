@@ -4,34 +4,36 @@ import { Card, CardHeader, CardContent, Grid, CircularProgress } from '@material
 import Typography from '@material-ui/core/Typography';
 import Toolbar from '@material-ui/core/Toolbar';
 import * as moment from 'moment';
+import './news.css';
 
 const useStyles = makeStyles({
     root: {
-        maxWidth: 400,
-        minWidth: 300,
+        width: 400,
         fontFamily: 'monospace',
-        maxHeight: 800,
-        minHeight: 300
+        height: 600
     },
 });
 
-function WeatherHolder(props) {
+function NewsHolder(props) {
     const cardHolder = useStyles();
     return (
-        <a href={props.newsObj.url} style={{ textDecoration: 'none' }}>
-            <Card className={cardHolder.root}>
-                <CardHeader
-                    title={props.newsObj.title}
-                    subheader={moment(props.newsObj.published).format('dddd, MMMM Do YYYY, h:mm:ss a')}
-                />
-                <img src={props.newsObj.image} alt={props.newsObj.source} maxHeight={500} width={400} mode='fit' />
-                <CardContent>
-                    <Typography variant="body2" color="textSecondary" component="p">
-                        {props.newsObj.description}
-                    </Typography>
-                </CardContent>
-            </Card>
-        </a>
+        <div className="grid-card">
+            <a href={props.newsObj.url} style={{ textDecoration: 'none' }}>
+                <Card className={cardHolder.root}>
+                    <CardHeader className="card-title"
+                        title={props.newsObj.title}
+                        subheader={moment(props.newsObj.published).format('dddd, MMMM Do YYYY, h:mm:ss a')}
+                    />
+                    <img className="news-img" src={props.newsObj.image} alt={props.newsObj.source}  mode='fit' />
+                    <CardContent className="card-content">
+                        <Typography variant="body2" color="textSecondary" component="p">
+                            {props.newsObj.description}
+                        </Typography>
+                    </CardContent>
+                </Card>
+            </a>
+        </div>
+        
     );
 }
 
@@ -83,37 +85,37 @@ class NewsWindow extends React.Component {
                             <h1 style={{ fontSize: "35px" }}>Articles on COVID-19</h1>
 
                             <Grid container justify="center" spacing={3}>
-                                <Grid container item xs={12} spacing={3}>
-                                    <Grid item xs={4}>
-                                        <WeatherHolder newsObj={listArticles[0]} />
+                                <Grid container  item xs={12} spacing={3}>
+                                    <Grid  className="grid-card" item xs={4}>
+                                        <NewsHolder newsObj={listArticles[0]} />
                                     </Grid>
                                     <Grid item xs={4}>
-                                        <WeatherHolder newsObj={listArticles[1]} />
+                                        <NewsHolder newsObj={listArticles[1]} />
                                     </Grid>
                                     <Grid item xs={4}>
-                                        <WeatherHolder newsObj={listArticles[2]} />
-                                    </Grid>
-                                </Grid>
-                                <Grid container item xs={12} spacing={3}>
-                                    <Grid item xs={4}>
-                                        <WeatherHolder newsObj={listArticles[3]} />
-                                    </Grid>
-                                    <Grid item xs={4}>
-                                        <WeatherHolder newsObj={listArticles[4]} />
-                                    </Grid>
-                                    <Grid item xs={4}>
-                                        <WeatherHolder newsObj={listArticles[5]} />
+                                        <NewsHolder newsObj={listArticles[2]} />
                                     </Grid>
                                 </Grid>
                                 <Grid container item xs={12} spacing={3}>
                                     <Grid item xs={4}>
-                                        <WeatherHolder newsObj={listArticles[6]} />
+                                        <NewsHolder newsObj={listArticles[3]} />
                                     </Grid>
                                     <Grid item xs={4}>
-                                        <WeatherHolder newsObj={listArticles[7]} />
+                                        <NewsHolder newsObj={listArticles[4]} />
                                     </Grid>
                                     <Grid item xs={4}>
-                                        <WeatherHolder newsObj={listArticles[8]} />
+                                        <NewsHolder newsObj={listArticles[5]} />
+                                    </Grid>
+                                </Grid>
+                                <Grid container item xs={12} spacing={3}>
+                                    <Grid item xs={4}>
+                                        <NewsHolder newsObj={listArticles[6]} />
+                                    </Grid>
+                                    <Grid item xs={4}>
+                                        <NewsHolder newsObj={listArticles[7]} />
+                                    </Grid>
+                                    <Grid item xs={4}>
+                                        <NewsHolder newsObj={listArticles[8]} />
                                     </Grid>
                                 </Grid>
                             </Grid>

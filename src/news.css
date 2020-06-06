@@ -1,0 +1,15 @@
+.news-img{
+    width: 400px;
+    height: 270px;
+}
+.card-title{
+    height: 210px; 
+}
+.card-content{
+    height: 120px;
+}
+.grid-card{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
