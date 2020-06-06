@@ -5,6 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import Toolbar from '@material-ui/core/Toolbar';
 import * as moment from 'moment';
 import './news.css';
+import { getNewsData } from './ApiModule';
 
 const useStyles = makeStyles({
     root: {
@@ -43,34 +44,29 @@ class NewsWindow extends React.Component {
         super(props);
         this.state = {
             classes: props.classes,
-            url: 'https://gnews.io/api/v3/search?q=chicago%20coronavirus&image=required&token=5decfe986025127212ad9ae685327f91',
             listArticles: {},
         };
         this.retrieveNewsData();
     }
 
-    retrieveNewsData() {
-        fetch(this.state.url)
-            .then(resp => resp.json())
-            .then(res => {
-                var newList = [];
+    async retrieveNewsData() {
+        var res = await getNewsData();
+        var newList = [];
 
-                for (let i = 0; i < 10; i++) {
-                    var newsapiobj = {
-                        title: res.articles[i].title,
-                        description: res.articles[i].description,
-                        url: res.articles[i].url,
-                        image: res.articles[i].image,
-                        published: res.articles[i].publishedAt,
-                        source: res.articles[i].source.name,
-                    }
-                    newList.push(newsapiobj);
-                }
-                this.setState({
-                    listArticles: newList,
-                });
-
-            });
+        for (let i = 0; i < 10; i++) {
+            var newsapiobj = {
+                title: res.articles[i].title,
+                description: res.articles[i].description,
+                url: res.articles[i].url,
+                image: res.articles[i].image,
+                published: res.articles[i].publishedAt,
+                source: res.articles[i].source.name,
+            }
+            newList.push(newsapiobj);
+        }
+        this.setState({
+            listArticles: newList,
+        });
     }
 
 

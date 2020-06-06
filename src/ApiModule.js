@@ -1,5 +1,5 @@
 
-export function getZipData(somefunc) {
+export function getZipData() {
     var zipUrl = "https://data.cityofchicago.org/resource/yhhz-zm2v.json";
 
     return fetch(zipUrl)
@@ -10,7 +10,7 @@ export function getZipData(somefunc) {
         });
 }
 
-export function getAgeData(somefunc) {
+export function getAgeData() {
     var ageUrl = "https://data.cityofchicago.org/resource/naz8-j4nc.json";
 
     return fetch(ageUrl)
@@ -20,4 +20,10 @@ export function getAgeData(somefunc) {
         .then((data) => {
             return data
         });
+}
+
+export function getNewsData(){
+    return fetch('https://gnews.io/api/v3/search?q=chicago%20coronavirus&image=required&token=5decfe986025127212ad9ae685327f91')
+        .then(resp => resp.json())
+        .then(data => data);
 }
