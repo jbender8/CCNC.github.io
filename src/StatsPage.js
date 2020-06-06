@@ -230,7 +230,7 @@ export default class StatsWindow extends React.Component {
                             hight="1"
                             aria-label={zipAriaLabel}
                         ></canvas>
-                        <h1 style={{ fontSize: "35px" }}>Number of Cases In Chicago Currently by Age: {this.state.age}</h1>
+                        <h1 style={{ fontSize: "35px" }}>Number of Cases In Chicago by Age: {this.state.age}</h1>
                         <h2 style={{ fontSize: "23px" }}>As of: {this.state.piedate}</h2>
                         <Doughnut
                             height={50}
