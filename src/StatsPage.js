@@ -38,20 +38,15 @@ export default class StatsWindow extends React.Component {
         var backgroundColors = targetLabels.map((sliceString) => {
             var ageBounds = sliceString.replace("cases_age_", "").split('_');
             if (ageBounds[1] === "") ageBounds[1] = "110";
-            if ((parseInt(ageBounds[0]) <= this.state.age) && (this.state.age <= parseInt(ageBounds[1]))) {
-                return 'rgb(29, 39, 94)'
-
-            }
-            else {
-                return '#949494';
-            }
+            return ((parseInt(ageBounds[0]) <= this.state.age) && (this.state.age <= parseInt(ageBounds[1]))) 
+                    ? 'rgb(29, 39, 94)'
+                    : '#949494';
         });
 
         var sanitizedLabels = targetLabels.map((sliceString) => {
             var prefixRemoved = sliceString.replace("cases_age_", "");
-            var dashRemoved = (prefixRemoved.includes("80")) ? prefixRemoved.replace("_", "+") : prefixRemoved.replace("_", "-");
-            return dashRemoved
-        })
+            return (prefixRemoved.includes("80")) ? prefixRemoved.replace("_", "+") : prefixRemoved.replace("_", "-");
+        });
 
         var pieDataObject = {
             labels: sanitizedLabels,
@@ -195,22 +190,18 @@ export default class StatsWindow extends React.Component {
 
         var zipAriaLabel = "Bar chart. x axis, week of. y axis, number of tests.";
         if (this.state.zipDataObject) {
-            this.state.zipDataObject.datasets[0].data.forEach((element, index) => {
-                var numTests = element;
-                var week = this.state.zipDataObject.labels[index];
-                zipAriaLabel += ` Week of ${week}, ${numTests} tests.`;
+            this.state.zipDataObject.datasets[0].data.forEach((numTests, index) => {
+                zipAriaLabel += ` Week of ${this.state.zipDataObject.labels[index]}, ${numTests} tests.`;
             });
         }
 
         var ageAriaLabel = "Doughnut chart. ";
         if (this.state.pieDataObject) {
-            this.state.pieDataObject.datasets[0].data.forEach((element, index) => {
+            this.state.pieDataObject.datasets[0].data.forEach((numCases, index) => {
                 var ageRange = this.state.pieDataObject.labels[index];
-                var numCases = element;
                 ageAriaLabel +=
                     (!ageRange.includes("80")) ? `Ages ${ageRange.split('-')[0]} to ${ageRange.split('-')[1]}, ${numCases} cases. `
                         : `Ages ${ageRange.split('+')[0]} plus, ${numCases} cases. `;
-
             });
         }
 
