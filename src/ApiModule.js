@@ -22,7 +22,7 @@ export function getAgeData() {
         });
 }
 
-export function getNewsData(){
+export function getNewsData() {
     return fetch('https://gnews.io/api/v3/search?q=chicago%20coronavirus&image=required&token=5decfe986025127212ad9ae685327f91')
         .then(resp => resp.json())
         .then(data => data);
