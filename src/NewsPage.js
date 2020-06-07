@@ -23,9 +23,9 @@ function NewsHolder(props) {
                 <Card className={cardHolder.root}>
                     <CardHeader className="card-title"
                         title={props.newsObj.title}
-                        subheader={moment(props.newsObj.published).format('dddd, MMMM Do YYYY, h:mm:ss a')}
+                        subheader={moment(props.newsObj.published, "YYYY-MM-DD h:mm:ss").format("dddd, MMMM Do YYYY, h:mm:ss a")}
                     />
-                    <img className="news-img" src={props.newsObj.image} alt={props.newsObj.source}  mode='fit' />
+                    <img className="news-img" src={props.newsObj.image} alt={props.newsObj.source} mode='fit' />
                     <CardContent className="card-content">
                         <Typography variant="body2" color="textSecondary" component="p">
                             {props.newsObj.description}
@@ -34,7 +34,7 @@ function NewsHolder(props) {
                 </Card>
             </a>
         </div>
-        
+
     );
 }
 
@@ -81,8 +81,8 @@ class NewsWindow extends React.Component {
                             <h1 style={{ fontSize: "35px" }}>Articles on COVID-19</h1>
 
                             <Grid container justify="center" spacing={3}>
-                                <Grid container  item xs={12} spacing={3}>
-                                    <Grid  className="grid-card" item xs={4}>
+                                <Grid container item xs={12} spacing={3}>
+                                    <Grid className="grid-card" item xs={4}>
                                         <NewsHolder newsObj={listArticles[0]} />
                                     </Grid>
                                     <Grid item xs={4}>
